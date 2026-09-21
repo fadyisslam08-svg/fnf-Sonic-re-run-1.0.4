@@ -1,0 +1,802 @@
+/* ============================================================
+   GLOBAL
+============================================================ */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    user-select: none;
+}
+
+
+/* ============================================================
+   COMMON
+============================================================ */
+
+.hidden {
+    display: none !important;
+}
+
+.screen {
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+
+/* ============================================================
+   BOOT
+============================================================ */
+
+#bootScreen {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #151515 0%,
+            #050505 45%,
+            #000 100%
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    z-index: 99999;
+}
+
+
+.bootLogo {
+
+    font-size: clamp(45px, 8vw, 100px);
+
+    font-weight: 900;
+
+    letter-spacing: 8px;
+
+    color: #fff;
+
+    text-shadow:
+        0 0 10px #fff,
+        0 0 30px rgba(255,255,255,.4);
+
+    animation: bootPulse 1.2s infinite alternate;
+}
+
+
+.bootText {
+
+    margin-top: 10px;
+
+    font-size: 16px;
+
+    letter-spacing: 6px;
+
+    opacity: .6;
+}
+
+
+.bootProgress {
+
+    width: min(500px, 70vw);
+
+    height: 3px;
+
+    margin-top: 45px;
+
+    background: #171717;
+
+    overflow: hidden;
+}
+
+
+#bootProgressBar {
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #fff;
+
+    box-shadow:
+        0 0 10px #fff;
+
+    transition: width .1s linear;
+}
+
+
+#bootStatus {
+
+    margin-top: 14px;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    opacity: .5;
+}
+
+
+@keyframes bootPulse {
+
+    from {
+        opacity: .65;
+        transform: scale(.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* ============================================================
+   TITLE BACKGROUND
+============================================================ */
+
+#sonicBackground {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        url("assets/menu/title/sonic_bg.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: repeat;
+
+    animation: backgroundMove 18s linear infinite;
+
+    filter: brightness(.75);
+}
+
+
+@keyframes backgroundMove {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 900px 0;
+    }
+}
+
+
+.darkOverlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            circle at center,
+            transparent 0%,
+            rgba(0,0,0,.15) 45%,
+            rgba(0,0,0,.75) 100%
+        );
+
+    pointer-events: none;
+}
+
+
+/* ============================================================
+   TITLE LOGO
+============================================================ */
+
+#titleContent {
+
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    pointer-events: none;
+}
+
+
+.titleLogo,
+.titleGlow {
+
+    position: absolute;
+
+    width: min(720px, 70vw);
+
+    max-height: 70vh;
+
+    object-fit: contain;
+
+    image-rendering: auto;
+
+    pointer-events: none;
+}
+
+
+.titleGlow {
+
+    filter:
+        blur(8px)
+        brightness(1.8);
+
+    opacity: .2;
+
+    transform: scale(1.035);
+
+    mix-blend-mode: screen;
+
+    animation: logoGlow 1.2s ease-in-out infinite alternate;
+}
+
+
+@keyframes logoGlow {
+
+    from {
+        opacity: .12;
+        transform: scale(1.025);
+    }
+
+    to {
+        opacity: .28;
+        transform: scale(1.06);
+    }
+}
+
+
+/* ============================================================
+   PRESS ENTER
+============================================================ */
+
+#pressEnter {
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: 9vh;
+
+    text-align: center;
+
+    font-family: monospace;
+
+    font-size: clamp(20px, 3vw, 42px);
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+
+    text-shadow:
+        0 0 8px #fff;
+
+    animation:
+        pressBlink 1s infinite alternate,
+        pressWave 2s ease-in-out infinite;
+
+    cursor: pointer;
+}
+
+
+@keyframes pressBlink {
+
+    from {
+        opacity: .35;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+
+@keyframes pressWave {
+
+    0% {
+        transform: translateX(-3px);
+    }
+
+    50% {
+        transform: translateX(3px);
+    }
+
+    100% {
+        transform: translateX(-3px);
+    }
+}
+
+
+/* ============================================================
+   VERSION
+============================================================ */
+
+#titleVersion {
+
+    position: absolute;
+
+    right: 20px;
+
+    bottom: 15px;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    opacity: .45;
+}
+
+
+/* ============================================================
+   EFFECTS
+============================================================ */
+
+.scanlines {
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 20;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            rgba(255,255,255,.025) 0px,
+            rgba(255,255,255,.025) 1px,
+            transparent 2px,
+            transparent 4px
+        );
+
+    opacity: .5;
+}
+
+
+.noise {
+
+    position: absolute;
+
+    inset: -50%;
+
+    pointer-events: none;
+
+    z-index: 21;
+
+    opacity: .08;
+
+    background-image:
+        repeating-radial-gradient(
+            circle,
+            #fff 0,
+            transparent 1px,
+            transparent 2px
+        );
+
+    background-size: 7px 7px;
+
+    animation: noiseMove .15s steps(2) infinite;
+}
+
+
+@keyframes noiseMove {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(5px,-4px);
+    }
+
+    50% {
+        transform: translate(-4px,5px);
+    }
+
+    75% {
+        transform: translate(3px,4px);
+    }
+
+    100% {
+        transform: translate(-3px,-5px);
+    }
+}
+
+
+/* ============================================================
+   GLITCH
+============================================================ */
+
+.glitch {
+
+    animation:
+        glitchMove .05s steps(2) infinite,
+        glitchColor .05s steps(2) infinite;
+}
+
+
+@keyframes glitchMove {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(-10px,2px);
+    }
+
+    50% {
+        transform: translate(8px,-3px);
+    }
+
+    75% {
+        transform: translate(-5px,4px);
+    }
+
+    100% {
+        transform: translate(4px,-2px);
+    }
+}
+
+
+@keyframes glitchColor {
+
+    0% {
+        filter: none;
+    }
+
+    50% {
+        filter:
+            drop-shadow(8px 0 0 rgba(255,0,0,.8))
+            drop-shadow(-8px 0 0 rgba(0,120,255,.8));
+    }
+
+    100% {
+        filter: none;
+    }
+}
+
+
+/* ============================================================
+   MAIN MENU
+============================================================ */
+
+#mainMenu {
+
+    background: #000;
+}
+
+
+#menuBackground {
+
+    position: absolute;
+
+    inset: 0;
+
+    background-image:
+        url("assets/menu/title/sonic_bg.png");
+
+    background-size: cover;
+
+    background-position: center;
+
+    filter: brightness(.35) contrast(1.2);
+
+    transform: scale(1.05);
+}
+
+
+.menuOverlay {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,.9),
+            rgba(0,0,0,.4),
+            rgba(0,0,0,.9)
+        );
+}
+
+
+/* ============================================================
+   MENU HEADER
+============================================================ */
+
+.menuHeader {
+
+    position: absolute;
+
+    top: 7vh;
+
+    left: 7vw;
+
+    z-index: 5;
+}
+
+
+.menuTitle {
+
+    font-size: clamp(40px, 6vw, 85px);
+
+    font-weight: 900;
+
+    letter-spacing: 5px;
+
+    text-shadow:
+        0 0 10px #fff,
+        0 0 35px rgba(255,255,255,.25);
+}
+
+
+.menuSubtitle {
+
+    margin-top: 4px;
+
+    font-family: monospace;
+
+    font-size: 14px;
+
+    letter-spacing: 5px;
+
+    opacity: .55;
+}
+
+
+/* ============================================================
+   MENU OPTIONS
+============================================================ */
+
+#menuOptions {
+
+    position: absolute;
+
+    left: 8vw;
+
+    top: 31vh;
+
+    z-index: 5;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+}
+
+
+.menuOption {
+
+    min-width: 380px;
+
+    padding: 15px 25px;
+
+    border-left: 4px solid transparent;
+
+    font-family: monospace;
+
+    font-size: clamp(22px, 3vw, 40px);
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    color: rgba(255,255,255,.45);
+
+    transition:
+        color .12s,
+        transform .12s,
+        border-color .12s,
+        background .12s;
+
+    cursor: pointer;
+}
+
+
+.menuOption:hover {
+
+    color: #fff;
+
+    transform: translateX(8px);
+}
+
+
+.menuOption.selected {
+
+    color: #fff;
+
+    border-left-color: #fff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.15),
+            transparent
+        );
+
+    transform: translateX(15px);
+
+    text-shadow:
+        0 0 10px #fff;
+}
+
+
+/* ============================================================
+   MENU FOOTER
+============================================================ */
+
+.menuFooter {
+
+    position: absolute;
+
+    right: 25px;
+
+    bottom: 20px;
+
+    z-index: 5;
+
+    font-family: monospace;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+
+    opacity: .4;
+}
+
+
+/* ============================================================
+   PANELS
+============================================================ */
+
+#panel {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 500;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background:
+        rgba(0,0,0,.85);
+
+    backdrop-filter: blur(5px);
+}
+
+
+#panelBox {
+
+    width: min(700px, 85vw);
+
+    min-height: 300px;
+
+    padding: 50px;
+
+    border: 1px solid rgba(255,255,255,.25);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(25,25,25,.95),
+            rgba(3,3,3,.95)
+        );
+
+    box-shadow:
+        0 0 40px rgba(255,255,255,.08);
+}
+
+
+#panelTitle {
+
+    font-size: 40px;
+
+    font-weight: bold;
+
+    letter-spacing: 4px;
+}
+
+
+#panelText {
+
+    margin-top: 35px;
+
+    white-space: pre-line;
+
+    font-family: monospace;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+
+    color: rgba(255,255,255,.7);
+}
+
+
+#panelBack {
+
+    margin-top: 45px;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    letter-spacing: 2px;
+
+    opacity: .5;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .titleLogo,
+    .titleGlow {
+        width: 90vw;
+    }
+
+    #menuOptions {
+        left: 5vw;
+    }
+
+    .menuOption {
+        min-width: 80vw;
+        font-size: 22px;
+    }
+
+    .menuTitle {
+        font-size: 42px;
+    }
+}
