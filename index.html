@@ -12,142 +12,607 @@
 <body>
 
     <!-- =========================================================
-         BOOT SCREEN
+         CRT / GLOBAL EFFECTS
     ========================================================== -->
 
-    <div id="bootScreen">
-
-        <div class="bootLogo">
-            SONIC RE-RUN
-        </div>
-
-        <div class="bootText">
-            BACK FROM THE CODE
-        </div>
-
-        <div class="bootProgress">
-            <div id="bootProgressBar"></div>
-        </div>
-
-        <div id="bootStatus">
-            INITIALIZING...
-        </div>
-
+    <div id="screenEffects">
+        <div class="scanlines"></div>
+        <div class="noise"></div>
+        <div class="vignette"></div>
     </div>
 
 
     <!-- =========================================================
-         TITLE SCREEN
+         BOOT SCREEN
     ========================================================== -->
 
-    <main id="titleScreen" class="screen hidden">
+    <section id="bootScreen">
 
-        <div id="sonicBackground"></div>
+        <div class="bootCenter">
 
-        <div class="darkOverlay"></div>
-
-        <div class="scanlines"></div>
-        <div class="noise"></div>
-
-        <div id="titleContent">
-
-            <img
-                id="titleLogo"
-                class="titleLogo"
-                draggable="false"
-                alt="Sonic RE-RUN"
-            >
-
-            <img
-                id="titleGlow"
-                class="titleGlow"
-                draggable="false"
-                alt=""
-            >
-
-            <div id="pressEnter">
-                PRESS&nbsp;&nbsp;&nbsp;ENTER
-            </div>
-
-        </div>
-
-        <div id="titleVersion">
-            SONIC RE-RUN 1.0000.4
-        </div>
-
-    </main>
-
-
-    <!-- =========================================================
-         MAIN MENU
-    ========================================================== -->
-
-    <main id="mainMenu" class="screen hidden">
-
-        <div id="menuBackground"></div>
-
-        <div class="menuOverlay"></div>
-
-        <div class="menuHeader">
-
-            <div class="menuTitle">
+            <div class="bootLogo">
                 SONIC RE-RUN
             </div>
 
-            <div class="menuSubtitle">
+            <div class="bootSubtitle">
                 BACK FROM THE CODE
             </div>
 
-        </div>
+            <div class="bootLine"></div>
 
-
-        <div id="menuOptions">
-
-            <div class="menuOption selected" data-index="0">
-                STORY MODE
+            <div class="bootProgress">
+                <div id="bootProgressBar"></div>
             </div>
 
-            <div class="menuOption" data-index="1">
-                FREEPLAY
-            </div>
-
-            <div class="menuOption" data-index="2">
-                OPTIONS
-            </div>
-
-            <div class="menuOption" data-index="3">
-                CREDITS
+            <div id="bootStatus">
+                INITIALIZING SYSTEM...
             </div>
 
         </div>
 
-
-        <div class="menuFooter">
-            SONIC RE-RUN // VERSION 1.0000.4
+        <div class="bootVersion">
+            SYSTEM // RE-RUN 1.0000.4
         </div>
 
-    </main>
+    </section>
 
 
     <!-- =========================================================
-         SIMPLE PANELS
+         WEBSITE
     ========================================================== -->
 
-    <div id="panel" class="hidden">
+    <div id="website" class="hidden">
 
-        <div id="panelBox">
+        <!-- =====================================================
+             NAVIGATION
+        ====================================================== -->
 
-            <div id="panelTitle">
+        <header id="navbar">
+
+            <a href="#home" class="navLogo">
+                <span>SONIC</span>
+                <strong>RE-RUN</strong>
+            </a>
+
+            <button id="mobileMenuButton" aria-label="Open menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav id="navigation">
+
+                <a href="#home" class="navLink active">
+                    HOME
+                </a>
+
+                <a href="#game" class="navLink">
+                    GAME
+                </a>
+
+                <a href="#songs" class="navLink">
+                    SONGS
+                </a>
+
+                <a href="#media" class="navLink">
+                    MEDIA
+                </a>
+
+                <a href="#updates" class="navLink">
+                    UPDATES
+                </a>
+
+                <a href="#credits" class="navLink">
+                    CREDITS
+                </a>
+
+            </nav>
+
+            <div class="systemStatus">
+                <span class="statusDot"></span>
+                SYSTEM ONLINE
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             HOME
+        ====================================================== -->
+
+        <main>
+
+            <section id="home" class="hero">
+
+                <div class="heroBackground"></div>
+                <div class="heroOverlay"></div>
+
+                <div class="heroContent">
+
+                    <div class="heroSmallText">
+                        <span></span>
+                        THE CODE HAS RETURNED
+                    </div>
+
+                    <h1>
+                        SONIC
+                        <br>
+                        <span>RE-RUN</span>
+                    </h1>
+
+                    <div class="heroSubtitle">
+                        BACK FROM THE CODE
+                    </div>
+
+                    <p class="heroDescription">
+                        A fan-made Friday Night Funkin' project
+                        built around a corrupted return to the code.
+                    </p>
+
+                    <div class="heroButtons">
+
+                        <a href="#game" class="mainButton">
+                            EXPLORE PROJECT
+                        </a>
+
+                        <a href="#media" class="secondaryButton">
+                            VIEW MEDIA
+                        </a>
+
+                    </div>
+
+                    <div class="heroVersion">
+                        VERSION 1.0000.4
+                    </div>
+
+                </div>
+
+                <div class="scrollIndicator">
+                    <span></span>
+                    SCROLL TO CONTINUE
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 GAME
+            ================================================== -->
+
+            <section id="game" class="section projectSection">
+
+                <div class="sectionHeader">
+
+                    <div class="sectionNumber">
+                        01
+                    </div>
+
+                    <div>
+                        <div class="sectionLabel">
+                            PROJECT
+                        </div>
+
+                        <h2>
+                            BACK FROM THE CODE
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="projectGrid">
+
+                    <div class="projectImage">
+                        <div class="imageGlitch"></div>
+
+                        <div class="projectImageText">
+                            SONIC
+                            <strong>RE-RUN</strong>
+                        </div>
+
+                        <div class="imageCorner topLeft"></div>
+                        <div class="imageCorner topRight"></div>
+                        <div class="imageCorner bottomLeft"></div>
+                        <div class="imageCorner bottomRight"></div>
+                    </div>
+
+                    <div class="projectInfo">
+
+                        <div class="terminalLine">
+                            <span>></span>
+                            SYSTEM INFORMATION
+                        </div>
+
+                        <p>
+                            SONIC RE-RUN is a fan-made Friday Night
+                            Funkin' project focused on bringing a
+                            corrupted version of the Sonic universe
+                            back from the code.
+                        </p>
+
+                        <p>
+                            Explore songs, characters, strange events,
+                            visual effects and everything hidden inside
+                            the project.
+                        </p>
+
+                        <div class="infoTable">
+
+                            <div>
+                                <span>PROJECT</span>
+                                <strong>SONIC RE-RUN</strong>
+                            </div>
+
+                            <div>
+                                <span>VERSION</span>
+                                <strong>1.0000.4</strong>
+                            </div>
+
+                            <div>
+                                <span>ENGINE</span>
+                                <strong>CODENAME ENGINE</strong>
+                            </div>
+
+                            <div>
+                                <span>STATUS</span>
+                                <strong>ACTIVE DEVELOPMENT</strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 SONGS
+            ================================================== -->
+
+            <section id="songs" class="section songsSection">
+
+                <div class="sectionHeader">
+
+                    <div class="sectionNumber">
+                        02
+                    </div>
+
+                    <div>
+                        <div class="sectionLabel">
+                            MUSIC DATABASE
+                        </div>
+
+                        <h2>
+                            SONGS
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="songsGrid">
+
+                    <article class="songCard">
+
+                        <div class="songNumber">
+                            01
+                        </div>
+
+                        <div class="songInfo">
+                            <div class="songName">
+                                LAST CHANCE
+                            </div>
+
+                            <div class="songMeta">
+                                RE-RUN // UNKNOWN SIGNAL
+                            </div>
+                        </div>
+
+                        <div class="songArrow">
+                            →
+                        </div>
+
+                    </article>
+
+
+                    <article class="songCard">
+
+                        <div class="songNumber">
+                            02
+                        </div>
+
+                        <div class="songInfo">
+                            <div class="songName">
+                                COMING SOON
+                            </div>
+
+                            <div class="songMeta">
+                                DATA NOT AVAILABLE
+                            </div>
+                        </div>
+
+                        <div class="songArrow">
+                            →
+                        </div>
+
+                    </article>
+
+
+                    <article class="songCard">
+
+                        <div class="songNumber">
+                            03
+                        </div>
+
+                        <div class="songInfo">
+                            <div class="songName">
+                                COMING SOON
+                            </div>
+
+                            <div class="songMeta">
+                                DATA NOT AVAILABLE
+                            </div>
+                        </div>
+
+                        <div class="songArrow">
+                            →
+                        </div>
+
+                    </article>
+
+
+                    <article class="songCard locked">
+
+                        <div class="songNumber">
+                            ??
+                        </div>
+
+                        <div class="songInfo">
+                            <div class="songName">
+                                ENCRYPTED
+                            </div>
+
+                            <div class="songMeta">
+                                ACCESS DENIED
+                            </div>
+                        </div>
+
+                        <div class="songArrow">
+                            X
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 MEDIA
+            ================================================== -->
+
+            <section id="media" class="section mediaSection">
+
+                <div class="sectionHeader">
+
+                    <div class="sectionNumber">
+                        03
+                    </div>
+
+                    <div>
+                        <div class="sectionLabel">
+                            VISUAL DATABASE
+                        </div>
+
+                        <h2>
+                            MEDIA
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="mediaGrid">
+
+                    <div class="mediaCard large">
+                        <div class="mediaPlaceholder">
+                            <span>MEDIA_01</span>
+                            SCREENSHOT
+                        </div>
+                    </div>
+
+                    <div class="mediaCard">
+                        <div class="mediaPlaceholder">
+                            <span>MEDIA_02</span>
+                            ARTWORK
+                        </div>
+                    </div>
+
+                    <div class="mediaCard">
+                        <div class="mediaPlaceholder">
+                            <span>MEDIA_03</span>
+                            GAMEPLAY
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mediaNote">
+                    MORE MEDIA WILL BE ADDED DURING DEVELOPMENT.
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 UPDATES
+            ================================================== -->
+
+            <section id="updates" class="section updatesSection">
+
+                <div class="sectionHeader">
+
+                    <div class="sectionNumber">
+                        04
+                    </div>
+
+                    <div>
+                        <div class="sectionLabel">
+                            SYSTEM LOG
+                        </div>
+
+                        <h2>
+                            UPDATES
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="updateList">
+
+                    <article class="updateItem">
+
+                        <div class="updateVersion">
+                            1.0000.4
+                        </div>
+
+                        <div class="updateContent">
+
+                            <div class="updateDate">
+                                CURRENT BUILD
+                            </div>
+
+                            <h3>
+                                RE-RUN // BACK FROM THE CODE
+                            </h3>
+
+                            <p>
+                                Current project build containing the
+                                latest development work.
+                            </p>
+
+                        </div>
+
+                        <div class="updateStatus">
+                            CURRENT
+                        </div>
+
+                    </article>
+
+
+                    <article class="updateItem">
+
+                        <div class="updateVersion">
+                            1.0000.X
+                        </div>
+
+                        <div class="updateContent">
+
+                            <div class="updateDate">
+                                FUTURE BUILD
+                            </div>
+
+                            <h3>
+                                CLASSIFIED
+                            </h3>
+
+                            <p>
+                                More information will be revealed later.
+                            </p>
+
+                        </div>
+
+                        <div class="updateStatus">
+                            LOCKED
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 CREDITS
+            ================================================== -->
+
+            <section id="credits" class="section creditsSection">
+
+                <div class="creditsCenter">
+
+                    <div class="sectionLabel">
+                        PROJECT DATABASE
+                    </div>
+
+                    <h2>
+                        CREDITS
+                    </h2>
+
+                    <div class="creditMain">
+                        SONIC RE-RUN
+                    </div>
+
+                    <div class="creditSubtitle">
+                        BACK FROM THE CODE
+                    </div>
+
+                    <div class="creditLine"></div>
+
+                    <div class="creditRows">
+
+                        <div>
+                            <span>PROJECT</span>
+                            <strong>SONIC RE-RUN</strong>
+                        </div>
+
+                        <div>
+                            <span>CREATOR</span>
+                            <strong>FADI</strong>
+                        </div>
+
+                        <div>
+                            <span>ENGINE</span>
+                            <strong>CODENAME ENGINE</strong>
+                        </div>
+
+                        <div>
+                            <span>VERSION</span>
+                            <strong>1.0000.4</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="creditsMessage">
+                        THE CODE IS NEVER REALLY GONE.
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <footer>
+
+            <div class="footerLogo">
                 SONIC RE-RUN
             </div>
 
-            <div id="panelText"></div>
-
-            <div id="panelBack">
-                PRESS ESC TO RETURN
+            <div class="footerCenter">
+                BACK FROM THE CODE
             </div>
 
-        </div>
+            <div class="footerVersion">
+                1.0000.4
+            </div>
+
+        </footer>
 
     </div>
 
