@@ -1,802 +1,683 @@
-/* ============================================================
-   GLOBAL
-============================================================ */
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-html,
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-    color: #fff;
+    background: #08080d;
+    color: #ffffff;
     font-family: Arial, Helvetica, sans-serif;
-}
-
-body {
-    user-select: none;
+    overflow-x: hidden;
 }
 
 
-/* ============================================================
-   COMMON
-============================================================ */
+/* ================= NAVBAR ================= */
 
-.hidden {
-    display: none !important;
-}
-
-.screen {
+.navbar {
     position: fixed;
 
-    left: 0;
     top: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    overflow: hidden;
-}
-
-
-/* ============================================================
-   BOOT
-============================================================ */
-
-#bootScreen {
-
-    position: fixed;
-
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #151515 0%,
-            #050505 45%,
-            #000 100%
-        );
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    align-items: center;
-
-    z-index: 99999;
-}
-
-
-.bootLogo {
-
-    font-size: clamp(45px, 8vw, 100px);
-
-    font-weight: 900;
-
-    letter-spacing: 8px;
-
-    color: #fff;
-
-    text-shadow:
-        0 0 10px #fff,
-        0 0 30px rgba(255,255,255,.4);
-
-    animation: bootPulse 1.2s infinite alternate;
-}
-
-
-.bootText {
-
-    margin-top: 10px;
-
-    font-size: 16px;
-
-    letter-spacing: 6px;
-
-    opacity: .6;
-}
-
-
-.bootProgress {
-
-    width: min(500px, 70vw);
-
-    height: 3px;
-
-    margin-top: 45px;
-
-    background: #171717;
-
-    overflow: hidden;
-}
-
-
-#bootProgressBar {
-
-    width: 0%;
-
-    height: 100%;
-
-    background: #fff;
-
-    box-shadow:
-        0 0 10px #fff;
-
-    transition: width .1s linear;
-}
-
-
-#bootStatus {
-
-    margin-top: 14px;
-
-    font-family: monospace;
-
-    font-size: 12px;
-
-    letter-spacing: 3px;
-
-    opacity: .5;
-}
-
-
-@keyframes bootPulse {
-
-    from {
-        opacity: .65;
-        transform: scale(.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-
-/* ============================================================
-   TITLE BACKGROUND
-============================================================ */
-
-#sonicBackground {
-
-    position: absolute;
-
-    inset: 0;
-
-    background-image:
-        url("assets/menu/title/sonic_bg.png");
-
-    background-size: cover;
-
-    background-position: center;
-
-    background-repeat: repeat;
-
-    animation: backgroundMove 18s linear infinite;
-
-    filter: brightness(.75);
-}
-
-
-@keyframes backgroundMove {
-
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: 900px 0;
-    }
-}
-
-
-.darkOverlay {
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        radial-gradient(
-            circle at center,
-            transparent 0%,
-            rgba(0,0,0,.15) 45%,
-            rgba(0,0,0,.75) 100%
-        );
-
-    pointer-events: none;
-}
-
-
-/* ============================================================
-   TITLE LOGO
-============================================================ */
-
-#titleContent {
-
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    pointer-events: none;
-}
-
-
-.titleLogo,
-.titleGlow {
-
-    position: absolute;
-
-    width: min(720px, 70vw);
-
-    max-height: 70vh;
-
-    object-fit: contain;
-
-    image-rendering: auto;
-
-    pointer-events: none;
-}
-
-
-.titleGlow {
-
-    filter:
-        blur(8px)
-        brightness(1.8);
-
-    opacity: .2;
-
-    transform: scale(1.035);
-
-    mix-blend-mode: screen;
-
-    animation: logoGlow 1.2s ease-in-out infinite alternate;
-}
-
-
-@keyframes logoGlow {
-
-    from {
-        opacity: .12;
-        transform: scale(1.025);
-    }
-
-    to {
-        opacity: .28;
-        transform: scale(1.06);
-    }
-}
-
-
-/* ============================================================
-   PRESS ENTER
-============================================================ */
-
-#pressEnter {
-
-    position: absolute;
-
     left: 0;
-    right: 0;
 
-    bottom: 9vh;
+    width: 100%;
+    height: 75px;
 
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    font-family: monospace;
+    padding: 0 6%;
 
-    font-size: clamp(20px, 3vw, 42px);
+    background: rgba(8, 8, 13, 0.85);
+
+    border-bottom: 1px solid #292936;
+
+    backdrop-filter: blur(12px);
+
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.logo span {
+    color: #ff2bd6;
+}
+
+nav {
+    display: flex;
+    gap: 10px;
+}
+
+nav button {
+    border: none;
+    background: transparent;
+
+    color: #aaa;
+
+    padding: 10px 14px;
 
     font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+nav button:hover {
+    color: #ffffff;
+}
+
+
+/* ================= SECTIONS ================= */
+
+.section {
+    min-height: 100vh;
+
+    padding: 120px 8% 80px;
+
+    position: relative;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 80% 50%, #ff2bd622, transparent 35%),
+        radial-gradient(circle at 20% 80%, #20e8ff18, transparent 35%),
+        #08080d;
+}
+
+.hero-content {
+    max-width: 650px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.tag {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border: 1px solid #444452;
+
+    color: #20e8ff;
+
+    font-size: 11px;
 
     letter-spacing: 3px;
 
-    text-shadow:
-        0 0 8px #fff;
-
-    animation:
-        pressBlink 1s infinite alternate,
-        pressWave 2s ease-in-out infinite;
-
-    cursor: pointer;
+    margin-bottom: 25px;
 }
 
+.hero h1 {
+    font-size: clamp(70px, 10vw, 150px);
 
-@keyframes pressBlink {
+    line-height: 0.78;
 
-    from {
-        opacity: .35;
-    }
+    font-weight: 1000;
 
-    to {
-        opacity: 1;
-    }
+    letter-spacing: -8px;
 }
 
-
-@keyframes pressWave {
-
-    0% {
-        transform: translateX(-3px);
-    }
-
-    50% {
-        transform: translateX(3px);
-    }
-
-    100% {
-        transform: translateX(-3px);
-    }
-}
-
-
-/* ============================================================
-   VERSION
-============================================================ */
-
-#titleVersion {
-
-    position: absolute;
-
-    right: 20px;
-
-    bottom: 15px;
-
-    font-family: monospace;
-
-    font-size: 11px;
-
-    letter-spacing: 2px;
-
-    opacity: .45;
-}
-
-
-/* ============================================================
-   EFFECTS
-============================================================ */
-
-.scanlines {
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    z-index: 20;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            rgba(255,255,255,.025) 0px,
-            rgba(255,255,255,.025) 1px,
-            transparent 2px,
-            transparent 4px
-        );
-
-    opacity: .5;
-}
-
-
-.noise {
-
-    position: absolute;
-
-    inset: -50%;
-
-    pointer-events: none;
-
-    z-index: 21;
-
-    opacity: .08;
-
-    background-image:
-        repeating-radial-gradient(
-            circle,
-            #fff 0,
-            transparent 1px,
-            transparent 2px
-        );
-
-    background-size: 7px 7px;
-
-    animation: noiseMove .15s steps(2) infinite;
-}
-
-
-@keyframes noiseMove {
-
-    0% {
-        transform: translate(0,0);
-    }
-
-    25% {
-        transform: translate(5px,-4px);
-    }
-
-    50% {
-        transform: translate(-4px,5px);
-    }
-
-    75% {
-        transform: translate(3px,4px);
-    }
-
-    100% {
-        transform: translate(-3px,-5px);
-    }
-}
-
-
-/* ============================================================
-   GLITCH
-============================================================ */
-
-.glitch {
-
-    animation:
-        glitchMove .05s steps(2) infinite,
-        glitchColor .05s steps(2) infinite;
-}
-
-
-@keyframes glitchMove {
-
-    0% {
-        transform: translate(0,0);
-    }
-
-    25% {
-        transform: translate(-10px,2px);
-    }
-
-    50% {
-        transform: translate(8px,-3px);
-    }
-
-    75% {
-        transform: translate(-5px,4px);
-    }
-
-    100% {
-        transform: translate(4px,-2px);
-    }
-}
-
-
-@keyframes glitchColor {
-
-    0% {
-        filter: none;
-    }
-
-    50% {
-        filter:
-            drop-shadow(8px 0 0 rgba(255,0,0,.8))
-            drop-shadow(-8px 0 0 rgba(0,120,255,.8));
-    }
-
-    100% {
-        filter: none;
-    }
-}
-
-
-/* ============================================================
-   MAIN MENU
-============================================================ */
-
-#mainMenu {
-
-    background: #000;
-}
-
-
-#menuBackground {
-
-    position: absolute;
-
-    inset: 0;
-
-    background-image:
-        url("assets/menu/title/sonic_bg.png");
-
-    background-size: cover;
-
-    background-position: center;
-
-    filter: brightness(.35) contrast(1.2);
-
-    transform: scale(1.05);
-}
-
-
-.menuOverlay {
-
-    position: absolute;
-
-    inset: 0;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(0,0,0,.9),
-            rgba(0,0,0,.4),
-            rgba(0,0,0,.9)
-        );
-}
-
-
-/* ============================================================
-   MENU HEADER
-============================================================ */
-
-.menuHeader {
-
-    position: absolute;
-
-    top: 7vh;
-
-    left: 7vw;
-
-    z-index: 5;
-}
-
-
-.menuTitle {
-
-    font-size: clamp(40px, 6vw, 85px);
-
-    font-weight: 900;
-
-    letter-spacing: 5px;
+.hero h1 span {
+    color: #ff2bd6;
 
     text-shadow:
-        0 0 10px #fff,
-        0 0 35px rgba(255,255,255,.25);
+        5px 5px 0 #20e8ff;
 }
 
-
-.menuSubtitle {
-
-    margin-top: 4px;
-
-    font-family: monospace;
-
-    font-size: 14px;
-
-    letter-spacing: 5px;
-
-    opacity: .55;
-}
-
-
-/* ============================================================
-   MENU OPTIONS
-============================================================ */
-
-#menuOptions {
-
-    position: absolute;
-
-    left: 8vw;
-
-    top: 31vh;
-
-    z-index: 5;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 18px;
-}
-
-
-.menuOption {
-
-    min-width: 380px;
-
-    padding: 15px 25px;
-
-    border-left: 4px solid transparent;
-
-    font-family: monospace;
-
-    font-size: clamp(22px, 3vw, 40px);
-
-    font-weight: bold;
-
-    letter-spacing: 4px;
-
-    color: rgba(255,255,255,.45);
-
-    transition:
-        color .12s,
-        transform .12s,
-        border-color .12s,
-        background .12s;
-
-    cursor: pointer;
-}
-
-
-.menuOption:hover {
-
-    color: #fff;
-
-    transform: translateX(8px);
-}
-
-
-.menuOption.selected {
-
-    color: #fff;
-
-    border-left-color: #fff;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.15),
-            transparent
-        );
-
-    transform: translateX(15px);
-
-    text-shadow:
-        0 0 10px #fff;
-}
-
-
-/* ============================================================
-   MENU FOOTER
-============================================================ */
-
-.menuFooter {
-
-    position: absolute;
-
-    right: 25px;
-
-    bottom: 20px;
-
-    z-index: 5;
-
-    font-family: monospace;
-
-    font-size: 11px;
-
-    letter-spacing: 2px;
-
-    opacity: .4;
-}
-
-
-/* ============================================================
-   PANELS
-============================================================ */
-
-#panel {
-
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 500;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: center;
-
-    background:
-        rgba(0,0,0,.85);
-
-    backdrop-filter: blur(5px);
-}
-
-
-#panelBox {
-
-    width: min(700px, 85vw);
-
-    min-height: 300px;
-
-    padding: 50px;
-
-    border: 1px solid rgba(255,255,255,.25);
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(25,25,25,.95),
-            rgba(3,3,3,.95)
-        );
-
-    box-shadow:
-        0 0 40px rgba(255,255,255,.08);
-}
-
-
-#panelTitle {
-
-    font-size: 40px;
-
-    font-weight: bold;
-
-    letter-spacing: 4px;
-}
-
-
-#panelText {
+.hero p {
+    max-width: 500px;
 
     margin-top: 35px;
 
-    white-space: pre-line;
+    color: #a5a5b0;
 
-    font-family: monospace;
+    font-size: 18px;
 
-    font-size: 17px;
+    line-height: 1.6;
+}
 
-    line-height: 1.7;
+.buttons {
+    display: flex;
+    gap: 15px;
 
-    color: rgba(255,255,255,.7);
+    margin-top: 35px;
 }
 
 
-#panelBack {
+/* ================= BUTTONS ================= */
 
-    margin-top: 45px;
+.main-button,
+.secondary-button {
+    padding: 15px 28px;
 
-    font-family: monospace;
+    border: none;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.main-button {
+    background: #ff2bd6;
+
+    color: white;
+
+    box-shadow: 5px 5px 0 #20e8ff;
+}
+
+.main-button:hover {
+    transform: translate(3px, 3px);
+
+    box-shadow: 2px 2px 0 #20e8ff;
+}
+
+.secondary-button {
+    background: #20202b;
+
+    color: white;
+
+    border: 1px solid #41414d;
+}
+
+.secondary-button:hover {
+    background: #292936;
+}
+
+
+/* ================= HERO VISUAL ================= */
+
+.hero-visual {
+    width: 420px;
+    height: 420px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disc {
+    width: 330px;
+    height: 330px;
+
+    border-radius: 50%;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            #171722 0px,
+            #171722 7px,
+            #242432 8px,
+            #242432 12px
+        );
+
+    border: 8px solid #30303d;
+
+    animation: spin 12s linear infinite;
+
+    box-shadow:
+        0 0 80px #ff2bd633;
+}
+
+.disc-center {
+    width: 70px;
+    height: 70px;
+
+    border-radius: 50%;
+
+    background: #ff2bd6;
+
+    border: 15px solid #20e8ff;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.note {
+    position: absolute;
+
+    font-size: 60px;
+
+    font-weight: 900;
+
+    text-shadow: 4px 4px 0 #000;
+
+    animation: float 2s ease-in-out infinite;
+}
+
+.note1 {
+    top: 25px;
+    left: 20px;
+
+    color: #20e8ff;
+}
+
+.note2 {
+    bottom: 30px;
+    left: 50px;
+
+    color: #ff2bd6;
+
+    animation-delay: .3s;
+}
+
+.note3 {
+    top: 80px;
+    right: 0;
+
+    color: #20e8ff;
+
+    animation-delay: .6s;
+}
+
+.note4 {
+    bottom: 30px;
+    right: 35px;
+
+    color: #ff2bd6;
+
+    animation-delay: .9s;
+}
+
+@keyframes float {
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+
+/* ================= TITLES ================= */
+
+.section-title {
+    display: flex;
+
+    gap: 20px;
+
+    align-items: flex-start;
+
+    margin-bottom: 60px;
+}
+
+.section-title > span {
+    color: #ff2bd6;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.section-title h2 {
+    font-size: 55px;
+
+    letter-spacing: -3px;
+}
+
+.section-title p {
+    margin-top: 5px;
+
+    color: #777;
+}
+
+
+/* ================= SONGS ================= */
+
+.song-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.song-card {
+    min-height: 240px;
+
+    padding: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    background: #12121a;
+
+    border: 1px solid #2d2d3a;
+
+    transition: .25s;
+}
+
+.song-card:hover {
+    transform: translateY(-8px);
+
+    border-color: #ff2bd6;
+
+    box-shadow: 0 15px 40px #ff2bd61a;
+}
+
+.song-number {
+    color: #20e8ff;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.song-info h3 {
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+.song-info p {
+    color: #777;
+}
+
+.song-button {
+    width: 100%;
+
+    padding: 12px;
+
+    background: #20202b;
+
+    border: 1px solid #3b3b49;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.song-button:hover {
+    background: #ff2bd6;
+
+    border-color: #ff2bd6;
+}
+
+
+/* ================= CHARACTERS ================= */
+
+.characters {
+    background: #0d0d14;
+}
+
+.character-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.character-card {
+    padding: 45px 25px;
+
+    text-align: center;
+
+    background: #14141d;
+
+    border: 1px solid #2b2b36;
+}
+
+.character-icon {
+    width: 120px;
+    height: 120px;
+
+    margin: auto auto 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: #20202c;
+
+    font-size: 35px;
+
+    font-weight: 1000;
+
+    transform: rotate(-4deg);
+}
+
+.boyfriend .character-icon {
+    color: #20e8ff;
+}
+
+.opponent .character-icon {
+    color: #ff2bd6;
+}
+
+.gf .character-icon {
+    color: #ffdb4d;
+}
+
+.character-card h3 {
+    margin-bottom: 10px;
+}
+
+.character-card p {
+    color: #777;
+}
+
+
+/* ================= DOWNLOAD ================= */
+
+.download {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(circle, #20e8ff10, transparent 50%),
+        #08080d;
+}
+
+.download-box {
+    max-width: 650px;
+}
+
+.download h2 {
+    font-size: clamp(60px, 9vw, 120px);
+
+    line-height: .8;
+
+    letter-spacing: -7px;
+
+    margin-bottom: 35px;
+}
+
+.download h2 span {
+    color: #20e8ff;
+}
+
+.download p {
+    color: #999;
+
+    margin-bottom: 30px;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    min-height: 90px;
+
+    padding: 30px 8%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-top: 1px solid #252530;
+
+    color: #666;
 
     font-size: 12px;
-
-    letter-spacing: 2px;
-
-    opacity: .5;
 }
 
 
-/* ============================================================
-   RESPONSIVE
-============================================================ */
+/* ================= MODAL ================= */
 
-@media (max-width: 700px) {
+.modal {
+    position: fixed;
 
-    .titleLogo,
-    .titleGlow {
-        width: 90vw;
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, .75);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 2000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: min(90%, 450px);
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: #15151f;
+
+    border: 1px solid #444;
+
+    box-shadow: 0 30px 100px #000;
+}
+
+.close {
+    float: right;
+
+    background: transparent;
+
+    border: none;
+
+    color: #888;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.modal-icon {
+    font-size: 70px;
+
+    color: #ff2bd6;
+
+    margin: 20px;
+}
+
+.modal-box h2 {
+    font-size: 35px;
+}
+
+.modal-box p {
+    margin: 15px 0 25px;
+
+    color: #999;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 850px) {
+
+    .navbar {
+        padding: 0 4%;
     }
 
-    #menuOptions {
-        left: 5vw;
+    nav button {
+        display: none;
     }
 
-    .menuOption {
-        min-width: 80vw;
-        font-size: 22px;
+    .hero {
+        flex-direction: column;
+
+        justify-content: center;
+
+        text-align: center;
     }
 
-    .menuTitle {
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        width: 300px;
+        height: 300px;
+
+        margin-top: 50px;
+    }
+
+    .disc {
+        width: 220px;
+        height: 220px;
+    }
+
+    .song-grid,
+    .character-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title h2 {
         font-size: 42px;
+    }
+
+    footer {
+        flex-direction: column;
+
+        gap: 10px;
     }
 }
