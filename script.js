@@ -1,190 +1,473 @@
 "use strict";
 
-console.log("=================================");
-console.log(" FNF FAN GAME WEBSITE");
-console.log(" JavaScript loaded successfully");
-console.log("=================================");
+
+/* =========================================================
+   SONIC.EXE RE-RUN
+   WEBSITE SYSTEM
+========================================================= */
+
+console.log(
+    "%c SONIC.EXE: RE-RUN ",
+    "background:#700000;color:white;font-size:20px;font-weight:bold;"
+);
+
+console.log(
+    "%c BACK FROM THE CODE ",
+    "color:#a00000;font-weight:bold;"
+);
+
+console.log("> Initializing system...");
+console.log("> Loading corrupted data...");
+console.log("> Checking entity...");
+console.log("> ENTITY STATUS: UNKNOWN");
 
 
-/* ================= NAVIGATION ================= */
+/* =========================================================
+   INTRO
+========================================================= */
 
-const navButtons = document.querySelectorAll("nav button");
+const introScreen =
+    document.getElementById("introScreen");
 
-navButtons.forEach(button => {
-
-    button.addEventListener("click", () => {
-
-        const sectionId = button.dataset.section;
-
-        const section = document.getElementById(sectionId);
-
-        if (!section) {
-            console.error("Section not found:", sectionId);
-            return;
-        }
-
-        section.scrollIntoView({
-            behavior: "smooth"
-        });
-
-    });
-
-});
+const introText =
+    document.getElementById("introText");
 
 
-/* ================= VIEW SONGS ================= */
+const introMessages = [
+    "CONNECTION ESTABLISHED",
+    "READING MEMORY...",
+    "CORRUPTED DATA DETECTED",
+    "RESTORING FILES...",
+    "ENTITY FOUND",
+    "SONIC.EXE"
+];
 
-const scrollSongs =
-    document.getElementById("scrollSongs");
 
-if (scrollSongs) {
+let introIndex = 0;
 
-    scrollSongs.addEventListener("click", () => {
 
-        document
-            .getElementById("songs")
-            .scrollIntoView({
-                behavior: "smooth"
-            });
+function runIntro() {
 
-    });
+    if (introIndex >= introMessages.length) {
 
+        setTimeout(() => {
+
+            introScreen.classList.add("hidden");
+
+        }, 500);
+
+        return;
+    }
+
+    introText.textContent =
+        introMessages[introIndex];
+
+    introIndex++;
+
+    setTimeout(
+        runIntro,
+        550
+    );
 }
 
 
-/* ================= MODAL ================= */
-
-const modal =
-    document.getElementById("modal");
-
-const modalTitle =
-    document.getElementById("modalTitle");
-
-const modalText =
-    document.getElementById("modalText");
-
-const closeModal =
-    document.getElementById("closeModal");
-
-const modalPlay =
-    document.getElementById("modalPlay");
-
-
-function openSong(songName) {
-
-    console.log("Opening song:", songName);
-
-    modalTitle.textContent = songName;
-
-    modalText.textContent =
-        "This is a website demo. The actual game will be connected later.";
-
-    modal.classList.add("active");
-
-}
-
-
-function closeSongModal() {
-
-    modal.classList.remove("active");
-
-}
-
-
-document.querySelectorAll(".song-button")
-    .forEach(button => {
-
-        button.addEventListener("click", () => {
-
-            const song =
-                button.dataset.song;
-
-            openSong(song);
-
-        });
-
-    });
-
-
-closeModal.addEventListener(
-    "click",
-    closeSongModal
+setTimeout(
+    runIntro,
+    500
 );
 
 
-modal.addEventListener("click", event => {
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
-    if (event.target === modal) {
-
-        closeSongModal();
-
-    }
-
-});
-
-
-/* ================= PLAY NOW ================= */
-
-const playButton =
-    document.getElementById("playButton");
-
-playButton.addEventListener("click", () => {
-
-    console.log("PLAY NOW clicked");
-
-    openSong("FNF FAN GAME");
-
-});
+const navigationButtons =
+    document.querySelectorAll(
+        "[data-target]"
+    );
 
 
-/* ================= MODAL PLAY ================= */
+navigationButtons.forEach(button => {
 
-modalPlay.addEventListener("click", () => {
+    button.addEventListener(
+        "click",
+        () => {
 
-    console.log("START clicked");
+            const targetId =
+                button.dataset.target;
 
-    modalText.textContent =
-        "Game launch system is ready.";
+            const target =
+                document.getElementById(
+                    targetId
+                );
 
-    modalPlay.textContent =
-        "GAME READY";
+            if (!target) {
 
-});
+                console.error(
+                    "Target section not found:",
+                    targetId
+                );
 
+                return;
+            }
 
-/* ================= DOWNLOAD ================= */
+            target.scrollIntoView({
+                behavior: "smooth"
+            });
 
-const downloadButton =
-    document.getElementById("downloadButton");
+            console.log(
+                "Navigation:",
+                targetId
+            );
 
-downloadButton.addEventListener("click", () => {
-
-    console.log("DOWNLOAD clicked");
-
-    alert(
-        "Download system will be connected to the game files later."
+        }
     );
 
 });
 
 
-/* ================= CONSOLE TEST ================= */
+/* =========================================================
+   ENTER THE CODE
+========================================================= */
+
+const enterButton =
+    document.getElementById(
+        "enterButton"
+    );
+
+
+enterButton.addEventListener(
+    "click",
+    () => {
+
+        console.warn(
+            "WARNING: USER ENTERED THE CODE."
+        );
+
+        document
+            .getElementById("story")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+        createGlitch();
+
+    }
+);
+
+
+/* =========================================================
+   SONG MODAL
+========================================================= */
+
+const modal =
+    document.getElementById(
+        "modal"
+    );
+
+const modalTitle =
+    document.getElementById(
+        "modalTitle"
+    );
+
+const modalMessage =
+    document.getElementById(
+        "modalMessage"
+    );
+
+const closeModal =
+    document.getElementById(
+        "closeModal"
+    );
+
+const modalAction =
+    document.getElementById(
+        "modalAction"
+    );
+
+
+const songButtons =
+    document.querySelectorAll(
+        ".song-button"
+    );
+
+
+songButtons.forEach(button => {
+
+    button.addEventListener(
+        "click",
+        () => {
+
+            const songName =
+                button.dataset.song;
+
+            console.log(
+                "Attempting to access:",
+                songName
+            );
+
+            openSong(
+                songName
+            );
+
+        }
+    );
+
+});
+
+
+function openSong(songName) {
+
+    modalTitle.textContent =
+        songName;
+
+    if (songName === "UNKNOWN") {
+
+        modalMessage.textContent =
+            "ACCESS DENIED. THIS FILE DOES NOT WANT TO BE FOUND.";
+
+    } else if (songName === "ZALGO") {
+
+        modalMessage.textContent =
+            "WARNING: FILE IS HEAVILY CORRUPTED.";
+
+    } else {
+
+        modalMessage.textContent =
+            "FILE RECOVERED. CONNECTION READY.";
+
+    }
+
+    modal.classList.add(
+        "active"
+    );
+
+}
+
+
+function closeSong() {
+
+    modal.classList.remove(
+        "active"
+    );
+
+}
+
+
+closeModal.addEventListener(
+    "click",
+    closeSong
+);
+
+
+modal.addEventListener(
+    "click",
+    event => {
+
+        if (
+            event.target === modal
+        ) {
+
+            closeSong();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   MODAL ACTION
+========================================================= */
+
+modalAction.addEventListener(
+    "click",
+    () => {
+
+        console.log(
+            "GAME EXECUTION REQUESTED."
+        );
+
+        modalTitle.textContent =
+            "EXECUTION";
+
+        modalMessage.textContent =
+            "The actual game executable will be connected here.";
+
+        modalAction.textContent =
+            "SYSTEM READY";
+
+        createGlitch();
+
+    }
+);
+
+
+/* =========================================================
+   DOWNLOAD
+========================================================= */
+
+const downloadButton =
+    document.getElementById(
+        "downloadButton"
+    );
+
+
+downloadButton.addEventListener(
+    "click",
+    () => {
+
+        console.log(
+            "Download requested."
+        );
+
+        alert(
+            "The download link will be connected to the RE-RUN game files."
+        );
+
+    }
+);
+
+
+/* =========================================================
+   RANDOM GLITCH
+========================================================= */
+
+function createGlitch() {
+
+    const title =
+        document.querySelector(
+            ".glitch-title"
+        );
+
+    if (!title) {
+        return;
+    }
+
+    title.style.transform =
+        "translate(" +
+        ((Math.random() * 10) - 5) +
+        "px," +
+        ((Math.random() * 6) - 3) +
+        "px)";
+
+    title.style.textShadow =
+        "5px 0 #ff0000, -5px 0 #222";
+
+    setTimeout(() => {
+
+        title.style.transform =
+            "translate(0,0)";
+
+        title.style.textShadow =
+            "3px 0 #b00000, -3px 0 #222";
+
+    }, 120);
+
+}
+
+
+/* =========================================================
+   RANDOM GLITCH TIMER
+========================================================= */
+
+setInterval(
+    () => {
+
+        if (
+            Math.random() < .35
+        ) {
+
+            createGlitch();
+
+        }
+
+    },
+    3500
+);
+
+
+/* =========================================================
+   TERMINAL SECRET
+========================================================= */
+
+const terminalText =
+    document.getElementById(
+        "terminalText"
+    );
+
+
+let secretCounter = 0;
+
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key.toLowerCase() === "r"
+        ) {
+
+            secretCounter++;
+
+            console.log(
+                "R detected:",
+                secretCounter
+            );
+
+            if (
+                secretCounter >= 5
+            ) {
+
+                terminalText.innerHTML +=
+                    `
+                    <p class="red">
+                    > SECRET COMMAND ACCEPTED.
+                    </p>
+                    <p class="red">
+                    > HE IS WATCHING.
+                    </p>
+                    `;
+
+                console.warn(
+                    "SECRET EVENT TRIGGERED."
+                );
+
+                secretCounter = 0;
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   CONSOLE EASTER EGG
+========================================================= */
 
 console.log(
-    "Navigation buttons:",
-    navButtons.length
+    "%cIf you found this console...",
+    "color:#777;font-style:italic;"
 );
 
 console.log(
-    "Song buttons:",
-    document.querySelectorAll(".song-button").length
+    "%c...you were not supposed to.",
+    "color:#900;font-weight:bold;"
 );
 
 console.log(
-    "Modal:",
-    modal ? "OK" : "ERROR"
+    "%cTry pressing R five times.",
+    "color:#555;"
 );
 
+
+/* =========================================================
+   SYSTEM READY
+========================================================= */
+
 console.log(
-    "Website initialized successfully."
+    "%c WEBSITE SYSTEM READY ",
+    "background:#111;color:#a00000;font-weight:bold;"
 );
