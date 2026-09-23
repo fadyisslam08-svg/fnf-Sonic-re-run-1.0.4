@@ -2,43 +2,93 @@
 
 
 /* =========================================================
-   SONIC.EXE RE-RUN
-   WEBSITE SYSTEM
+   SONIC.EXE // RE-RUN
+   HORROR SYSTEM
 ========================================================= */
 
+console.clear();
+
 console.log(
-    "%c SONIC.EXE: RE-RUN ",
-    "background:#700000;color:white;font-size:20px;font-weight:bold;"
+    "%c SONIC.EXE // RE-RUN ",
+    "background:#000;color:#a00000;font-size:22px;font-weight:bold;"
 );
 
 console.log(
     "%c BACK FROM THE CODE ",
-    "color:#a00000;font-weight:bold;"
+    "color:#700000;font-weight:bold;"
 );
 
-console.log("> Initializing system...");
-console.log("> Loading corrupted data...");
-console.log("> Checking entity...");
-console.log("> ENTITY STATUS: UNKNOWN");
+console.log(
+    "%cYou shouldn't be reading this.",
+    "color:#555;font-style:italic;"
+);
+
+
+/* =========================================================
+   ELEMENTS
+========================================================= */
+
+const intro =
+    document.getElementById("intro");
+
+const introDynamic =
+    document.getElementById("introDynamic");
+
+const site =
+    document.getElementById("site");
+
+const entity =
+    document.getElementById("entity");
+
+const eyeLeft =
+    document.getElementById("eyeLeft");
+
+const eyeRight =
+    document.getElementById("eyeRight");
+
+const randomMessage =
+    document.getElementById("randomMessage");
+
+const redFlash =
+    document.getElementById("redFlash");
+
+const distortion =
+    document.getElementById("distortion");
+
+const modal =
+    document.getElementById("modal");
+
+const modalTitle =
+    document.getElementById("modalTitle");
+
+const modalText =
+    document.getElementById("modalText");
+
+const closeModal =
+    document.getElementById("closeModal");
+
+const modalAction =
+    document.getElementById("modalAction");
+
+const jumpscare =
+    document.getElementById("jumpscare");
+
+const systemStatus =
+    document.getElementById("systemStatus");
 
 
 /* =========================================================
    INTRO
 ========================================================= */
 
-const introScreen =
-    document.getElementById("introScreen");
+const introLines = [
 
-const introText =
-    document.getElementById("introText");
-
-
-const introMessages = [
-    "CONNECTION ESTABLISHED",
-    "READING MEMORY...",
-    "CORRUPTED DATA DETECTED",
-    "RESTORING FILES...",
-    "ENTITY FOUND",
+    "RESTORING MEMORY...",
+    "MEMORY BLOCK 01: FAILED",
+    "MEMORY BLOCK 02: FAILED",
+    "MEMORY BLOCK 03: UNKNOWN",
+    "SEARCHING FOR OWNER...",
+    "OWNER FOUND.",
     "SONIC.EXE"
 ];
 
@@ -46,34 +96,83 @@ const introMessages = [
 let introIndex = 0;
 
 
-function runIntro() {
+function playIntro() {
 
-    if (introIndex >= introMessages.length) {
+    if (
+        introIndex >=
+        introLines.length
+    ) {
 
-        setTimeout(() => {
-
-            introScreen.classList.add("hidden");
-
-        }, 500);
+        setTimeout(
+            finishIntro,
+            700
+        );
 
         return;
     }
 
-    introText.textContent =
-        introMessages[introIndex];
+    introDynamic.textContent =
+        "> " +
+        introLines[introIndex];
 
     introIndex++;
 
     setTimeout(
-        runIntro,
-        550
+        playIntro,
+        430
     );
 }
 
 
+function finishIntro() {
+
+    intro.classList.add(
+        "hidden"
+    );
+
+    site.classList.add(
+        "loaded"
+    );
+
+    systemStatus.textContent =
+        "CONNECTED";
+
+    systemStatus.style.color =
+        "#850000";
+
+    console.log(
+        "%cENTITY CONNECTION ESTABLISHED",
+        "color:#a00000;font-weight:bold;"
+    );
+
+}
+
+
 setTimeout(
-    runIntro,
-    500
+    playIntro,
+    700
+);
+
+
+/* =========================================================
+   CLICK INTRO
+========================================================= */
+
+intro.addEventListener(
+    "click",
+    () => {
+
+        if (
+            !intro.classList.contains(
+                "hidden"
+            )
+        ) {
+
+            finishIntro();
+
+        }
+
+    }
 );
 
 
@@ -81,134 +180,316 @@ setTimeout(
    NAVIGATION
 ========================================================= */
 
-const navigationButtons =
-    document.querySelectorAll(
-        "[data-target]"
-    );
+document
+    .querySelectorAll(
+        "[data-page]"
+    )
+    .forEach(button => {
 
+        button.addEventListener(
+            "click",
+            () => {
 
-navigationButtons.forEach(button => {
+                const id =
+                    button.dataset.page;
 
-    button.addEventListener(
-        "click",
-        () => {
+                const target =
+                    document.getElementById(
+                        id
+                    );
 
-            const targetId =
-                button.dataset.target;
+                if (!target) {
 
-            const target =
-                document.getElementById(
-                    targetId
+                    console.error(
+                        "PAGE NOT FOUND:",
+                        id
+                    );
+
+                    return;
+                }
+
+                target.scrollIntoView({
+                    behavior: "smooth"
+                });
+
+                console.log(
+                    "PAGE:",
+                    id
                 );
 
-            if (!target) {
-
-                console.error(
-                    "Target section not found:",
-                    targetId
-                );
-
-                return;
             }
+        );
 
-            target.scrollIntoView({
-                behavior: "smooth"
-            });
-
-            console.log(
-                "Navigation:",
-                targetId
-            );
-
-        }
-    );
-
-});
+    });
 
 
 /* =========================================================
-   ENTER THE CODE
+   ENTITY EYES FOLLOW MOUSE
 ========================================================= */
 
-const enterButton =
-    document.getElementById(
-        "enterButton"
-    );
+document.addEventListener(
+    "mousemove",
+    event => {
 
+        const x =
+            (event.clientX /
+                window.innerWidth) -
+            0.5;
 
-enterButton.addEventListener(
-    "click",
-    () => {
+        const y =
+            (event.clientY /
+                window.innerHeight) -
+            0.5;
 
-        console.warn(
-            "WARNING: USER ENTERED THE CODE."
-        );
+        const moveX =
+            x * 18;
+
+        const moveY =
+            y * 10;
 
         document
-            .getElementById("story")
-            .scrollIntoView({
-                behavior: "smooth"
+            .querySelectorAll(
+                ".pupil"
+            )
+            .forEach(pupil => {
+
+                pupil.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
             });
 
-        createGlitch();
+        if (entity) {
+
+            entity.style.transform =
+                `
+                translateY(-50%)
+                translate(${x * 10}px, ${y * 5}px)
+                `;
+
+        }
 
     }
 );
 
 
 /* =========================================================
-   SONG MODAL
+   RANDOM HORROR MESSAGES
 ========================================================= */
 
-const modal =
-    document.getElementById(
-        "modal"
+const messages = [
+
+    "DON'T LOOK BEHIND YOU.",
+
+    "HE CAN SEE THE CURSOR.",
+
+    "WHY DID YOU COME BACK?",
+
+    "THE FILE REMEMBERS YOU.",
+
+    "THIS WAS NOT HERE BEFORE.",
+
+    "I REMEMBER YOU.",
+
+    "DO NOT CLOSE THE TAB.",
+
+    "YOU ARE NOT ALONE.",
+
+    "STOP READING.",
+
+    "HE IS WAITING.",
+
+    "RUN.",
+
+    "LOOK AT HIS EYES.",
+
+    "THE CODE IS ALIVE."
+
+];
+
+
+function showRandomMessage() {
+
+    const message =
+        messages[
+            Math.floor(
+                Math.random() *
+                messages.length
+            )
+        ];
+
+    randomMessage.textContent =
+        message;
+
+    randomMessage.classList.add(
+        "visible"
     );
 
-const modalTitle =
-    document.getElementById(
-        "modalTitle"
+    setTimeout(
+        () => {
+
+            randomMessage.classList.remove(
+                "visible"
+            );
+
+        },
+        1800
     );
 
-const modalMessage =
-    document.getElementById(
-        "modalMessage"
+}
+
+
+setInterval(
+    () => {
+
+        if (
+            Math.random() <
+            0.65
+        ) {
+
+            showRandomMessage();
+
+        }
+
+    },
+    7000
+);
+
+
+/* =========================================================
+   RANDOM GLITCH
+========================================================= */
+
+function glitch() {
+
+    document.body.classList.add(
+        "glitch"
     );
 
-const closeModal =
-    document.getElementById(
-        "closeModal"
+    distortion.style.opacity =
+        "1";
+
+    redFlash.style.opacity =
+        ".04";
+
+    setTimeout(
+        () => {
+
+            document.body.classList.remove(
+                "glitch"
+            );
+
+            distortion.style.opacity =
+                "0";
+
+            redFlash.style.opacity =
+                "0";
+
+        },
+        500
     );
 
-const modalAction =
-    document.getElementById(
-        "modalAction"
-    );
+}
 
 
-const songButtons =
-    document.querySelectorAll(
-        ".song-button"
-    );
+setInterval(
+    () => {
+
+        if (
+            Math.random() <
+            0.4
+        ) {
+
+            glitch();
+
+        }
+
+    },
+    9000
+);
 
 
-songButtons.forEach(button => {
+/* =========================================================
+   ENTER THE CODE
+========================================================= */
 
-    button.addEventListener(
+document
+    .getElementById("enterCode")
+    .addEventListener(
         "click",
         () => {
 
-            const songName =
-                button.dataset.song;
+            console.warn(
+                "USER ENTERED THE CODE."
+            );
+
+            document
+                .getElementById("story")
+                .scrollIntoView({
+                    behavior: "smooth"
+                });
+
+            glitch();
+
+        }
+    );
+
+
+/* =========================================================
+   DON'T CLICK
+========================================================= */
+
+document
+    .getElementById("watchButton")
+    .addEventListener(
+        "click",
+        () => {
 
             console.log(
-                "Attempting to access:",
-                songName
+                "BAD DECISION."
             );
 
-            openSong(
-                songName
+            showRandomMessage();
+
+            setTimeout(
+                () => {
+
+                    if (
+                        Math.random() <
+                        .65
+                    ) {
+
+                        triggerJumpscare();
+
+                    }
+
+                },
+                700
             );
+
+        }
+    );
+
+
+/* =========================================================
+   SONG SYSTEM
+========================================================= */
+
+const songs =
+    document.querySelectorAll(
+        ".song"
+    );
+
+
+songs.forEach(song => {
+
+    song.addEventListener(
+        "click",
+        () => {
+
+            const name =
+                song.dataset.song;
+
+            openSong(name);
 
         }
     );
@@ -216,47 +497,70 @@ songButtons.forEach(button => {
 });
 
 
-function openSong(songName) {
+function openSong(name) {
 
     modalTitle.textContent =
-        songName;
-
-    if (songName === "UNKNOWN") {
-
-        modalMessage.textContent =
-            "ACCESS DENIED. THIS FILE DOES NOT WANT TO BE FOUND.";
-
-    } else if (songName === "ZALGO") {
-
-        modalMessage.textContent =
-            "WARNING: FILE IS HEAVILY CORRUPTED.";
-
-    } else {
-
-        modalMessage.textContent =
-            "FILE RECOVERED. CONNECTION READY.";
-
-    }
+        name;
 
     modal.classList.add(
         "active"
     );
 
+    if (
+        name === "LAST CHANCE"
+    ) {
+
+        modalText.textContent =
+            "FILE RECOVERED. THE AUDIO IS STILL INTACT.";
+
+        console.log(
+            "LAST CHANCE accessed."
+        );
+
+    }
+
+    else if (
+        name === "ZALGO"
+    ) {
+
+        modalText.textContent =
+            "WARNING. DATA CORRUPTION LEVEL: CRITICAL.";
+
+        glitch();
+
+        console.warn(
+            "ZALGO FILE IS CORRUPTED."
+        );
+
+    }
+
+    else {
+
+        modalText.textContent =
+            "ACCESS DENIED. THIS FILE HAS NO NAME.";
+
+        console.warn(
+            "UNKNOWN FILE REQUESTED."
+        );
+
+    }
+
 }
 
 
-function closeSong() {
-
-    modal.classList.remove(
-        "active"
-    );
-
-}
-
+/* =========================================================
+   CLOSE MODAL
+========================================================= */
 
 closeModal.addEventListener(
     "click",
-    closeSong
+    () => {
+
+        modal.classList.remove(
+            "active"
+        );
+
+    }
 );
 
 
@@ -268,7 +572,9 @@ modal.addEventListener(
             event.target === modal
         ) {
 
-            closeSong();
+            modal.classList.remove(
+                "active"
+            );
 
         }
 
@@ -285,161 +591,245 @@ modalAction.addEventListener(
     () => {
 
         console.log(
-            "GAME EXECUTION REQUESTED."
+            "EXECUTION REQUESTED."
         );
 
-        modalTitle.textContent =
-            "EXECUTION";
+        modal.classList.remove(
+            "active"
+        );
 
-        modalMessage.textContent =
-            "The actual game executable will be connected here.";
+        glitch();
 
-        modalAction.textContent =
-            "SYSTEM READY";
+        setTimeout(
+            () => {
 
-        createGlitch();
+                showRandomMessage();
+
+            },
+            300
+        );
 
     }
 );
 
 
 /* =========================================================
-   DOWNLOAD
+   EXECUTE BUTTON
 ========================================================= */
 
-const downloadButton =
-    document.getElementById(
-        "downloadButton"
+document
+    .getElementById("executeButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            console.warn(
+                "EXECUTABLE START REQUESTED."
+            );
+
+            glitch();
+
+            setTimeout(
+                () => {
+
+                    triggerJumpscare();
+
+                },
+                600
+            );
+
+        }
     );
 
 
-downloadButton.addEventListener(
-    "click",
-    () => {
-
-        console.log(
-            "Download requested."
-        );
-
-        alert(
-            "The download link will be connected to the RE-RUN game files."
-        );
-
-    }
-);
-
-
 /* =========================================================
-   RANDOM GLITCH
+   JUMPSCARE
 ========================================================= */
 
-function createGlitch() {
+let scareRunning = false;
 
-    const title =
-        document.querySelector(
-            ".glitch-title"
-        );
 
-    if (!title) {
+function triggerJumpscare() {
+
+    if (scareRunning) {
         return;
     }
 
-    title.style.transform =
-        "translate(" +
-        ((Math.random() * 10) - 5) +
-        "px," +
-        ((Math.random() * 6) - 3) +
-        "px)";
+    scareRunning = true;
 
-    title.style.textShadow =
-        "5px 0 #ff0000, -5px 0 #222";
+    console.warn(
+        "%cI SAW YOU.",
+        "background:#900;color:#fff;font-size:25px;"
+    );
 
-    setTimeout(() => {
+    jumpscare.classList.add(
+        "active"
+    );
 
-        title.style.transform =
-            "translate(0,0)";
+    document.body.style.cursor =
+        "none";
 
-        title.style.textShadow =
-            "3px 0 #b00000, -3px 0 #222";
+    setTimeout(
+        () => {
 
-    }, 120);
+            jumpscare.classList.remove(
+                "active"
+            );
+
+            document.body.style.cursor =
+                "default";
+
+            scareRunning = false;
+
+        },
+        1300
+    );
 
 }
 
 
 /* =========================================================
-   RANDOM GLITCH TIMER
+   SECRET KEY SYSTEM
 ========================================================= */
 
-setInterval(
-    () => {
+let secretSequence = "";
 
-        if (
-            Math.random() < .35
-        ) {
-
-            createGlitch();
-
-        }
-
-    },
-    3500
-);
-
-
-/* =========================================================
-   TERMINAL SECRET
-========================================================= */
-
-const terminalText =
-    document.getElementById(
-        "terminalText"
-    );
-
-
-let secretCounter = 0;
+const secretCode =
+    "rerun";
 
 
 document.addEventListener(
     "keydown",
     event => {
 
+        secretSequence +=
+            event.key.toLowerCase();
+
         if (
-            event.key.toLowerCase() === "r"
+            secretSequence.length >
+            secretCode.length
         ) {
 
-            secretCounter++;
-
-            console.log(
-                "R detected:",
-                secretCounter
-            );
-
-            if (
-                secretCounter >= 5
-            ) {
-
-                terminalText.innerHTML +=
-                    `
-                    <p class="red">
-                    > SECRET COMMAND ACCEPTED.
-                    </p>
-                    <p class="red">
-                    > HE IS WATCHING.
-                    </p>
-                    `;
-
-                console.warn(
-                    "SECRET EVENT TRIGGERED."
+            secretSequence =
+                secretSequence.slice(
+                    -secretCode.length
                 );
 
-                secretCounter = 0;
+        }
 
-            }
+        console.log(
+            "KEY BUFFER:",
+            secretSequence
+        );
+
+        if (
+            secretSequence ===
+            secretCode
+        ) {
+
+            activateSecret();
+
+            secretSequence = "";
 
         }
 
     }
+);
+
+
+/* =========================================================
+   SECRET EVENT
+========================================================= */
+
+function activateSecret() {
+
+    console.warn(
+        "%cSECRET CODE ACCEPTED.",
+        "color:#ff0000;font-size:20px;"
+    );
+
+    glitch();
+
+    const terminal =
+        document.getElementById(
+            "terminal"
+        );
+
+    terminal.innerHTML += `
+
+        <p class="red">
+        > SECRET COMMAND ACCEPTED.
+        </p>
+
+        <p class="red">
+        > RE-RUN PROTOCOL ACTIVE.
+        </p>
+
+        <p class="red">
+        > ENTITY IS AWARE.
+        </p>
+
+    `;
+
+    showRandomMessage();
+
+}
+
+
+/* =========================================================
+   IDLE DETECTION
+========================================================= */
+
+let lastActivity =
+    Date.now();
+
+
+document.addEventListener(
+    "mousemove",
+    () => {
+
+        lastActivity =
+            Date.now();
+
+    }
+);
+
+
+document.addEventListener(
+    "keydown",
+    () => {
+
+        lastActivity =
+            Date.now();
+
+    }
+);
+
+
+setInterval(
+    () => {
+
+        const idleTime =
+            Date.now() -
+            lastActivity;
+
+        if (
+            idleTime >
+            20000 &&
+            Math.random() <
+            .3
+        ) {
+
+            showRandomMessage();
+
+            console.log(
+                "USER IDLE."
+            );
+
+        }
+
+    },
+    5000
 );
 
 
@@ -448,26 +838,26 @@ document.addEventListener(
 ========================================================= */
 
 console.log(
-    "%cIf you found this console...",
-    "color:#777;font-style:italic;"
+    "%cThere are things hidden here.",
+    "color:#444;font-style:italic;"
 );
 
 console.log(
-    "%c...you were not supposed to.",
-    "color:#900;font-weight:bold;"
+    "%cType: rerun",
+    "color:#700000;font-weight:bold;"
 );
 
 console.log(
-    "%cTry pressing R five times.",
-    "color:#555;"
+    "%cBut don't expect anything good.",
+    "color:#333;"
 );
 
 
 /* =========================================================
-   SYSTEM READY
+   FINAL STATUS
 ========================================================= */
 
 console.log(
-    "%c WEBSITE SYSTEM READY ",
-    "background:#111;color:#a00000;font-weight:bold;"
+    "%cRE-RUN HORROR SYSTEM READY.",
+    "color:#a00000;font-weight:bold;"
 );
