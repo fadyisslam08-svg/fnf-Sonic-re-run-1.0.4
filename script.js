@@ -1,32 +1,42 @@
-"use strict";
-
-
-/* =========================================================
+/* ============================================================
    SONIC.EXE // RE-RUN
-   HORROR SYSTEM
-========================================================= */
+   HORROR WEBSITE
+============================================================ */
+
+
+/* ============================================================
+   REAL DOWNLOAD URL
+============================================================ */
+
+const DOWNLOAD_URL =
+    "https://github.com/fadyisslam08-svg/fnf-Sonic-re-run-1.0.4/releases/download/fnf/Rerun.-.BACK.FROM.CODE.rar";
+
+
+/* ============================================================
+   CONSOLE
+============================================================ */
 
 console.clear();
 
 console.log(
-    "%c SONIC.EXE // RE-RUN ",
-    "background:#000;color:#a00000;font-size:22px;font-weight:bold;"
+    "%cSONIC.EXE // RE-RUN",
+    "color:#900;font-size:20px;font-weight:bold;"
 );
 
 console.log(
-    "%c BACK FROM THE CODE ",
-    "color:#700000;font-weight:bold;"
+    "%cBACK FROM THE CODE",
+    "color:#555;"
 );
 
 console.log(
-    "%cYou shouldn't be reading this.",
-    "color:#555;font-style:italic;"
+    "%cSomething is watching this page.",
+    "color:#600;"
 );
 
 
-/* =========================================================
+/* ============================================================
    ELEMENTS
-========================================================= */
+============================================================ */
 
 const intro =
     document.getElementById("intro");
@@ -49,12 +59,6 @@ const eyeRight =
 const randomMessage =
     document.getElementById("randomMessage");
 
-const redFlash =
-    document.getElementById("redFlash");
-
-const distortion =
-    document.getElementById("distortion");
-
 const modal =
     document.getElementById("modal");
 
@@ -64,8 +68,8 @@ const modalTitle =
 const modalText =
     document.getElementById("modalText");
 
-const closeModal =
-    document.getElementById("closeModal");
+const modalStatus =
+    document.getElementById("modalStatus");
 
 const modalAction =
     document.getElementById("modalAction");
@@ -73,149 +77,137 @@ const modalAction =
 const jumpscare =
     document.getElementById("jumpscare");
 
-const systemStatus =
-    document.getElementById("systemStatus");
+const downloadScene =
+    document.getElementById("downloadScene");
+
+const downloadLines =
+    document.getElementById("downloadLines");
+
+const downloadCursor =
+    document.getElementById("downloadCursor");
+
+const downloadProgressContainer =
+    document.getElementById("downloadProgressContainer");
+
+const downloadProgress =
+    document.getElementById("downloadProgress");
+
+const downloadPercent =
+    document.getElementById("downloadPercent");
+
+const downloadFinal =
+    document.getElementById("downloadFinal");
+
+const downloadFinalText =
+    document.getElementById("downloadFinalText");
+
+const realDownloadButton =
+    document.getElementById("realDownloadButton");
+
+const executeButton =
+    document.getElementById("executeButton");
+
+const enterCode =
+    document.getElementById("enterCode");
+
+const watchButton =
+    document.getElementById("watchButton");
 
 
-/* =========================================================
+/* ============================================================
    INTRO
-========================================================= */
+============================================================ */
 
 const introLines = [
 
     "RESTORING MEMORY...",
-    "MEMORY BLOCK 01: FAILED",
-    "MEMORY BLOCK 02: FAILED",
-    "MEMORY BLOCK 03: UNKNOWN",
-    "SEARCHING FOR OWNER...",
-    "OWNER FOUND.",
-    "SONIC.EXE"
-];
 
+    "MEMORY BLOCK 01: FAILED",
+
+    "MEMORY BLOCK 02: FAILED",
+
+    "MEMORY BLOCK 03: UNKNOWN",
+
+    "SEARCHING FOR OWNER...",
+
+    "OWNER FOUND.",
+
+    "SONIC.EXE"
+
+];
 
 let introIndex = 0;
 
-
 function playIntro() {
 
-    if (
-        introIndex >=
-        introLines.length
-    ) {
+    if (!introDynamic) {
+        finishIntro();
+        return;
+    }
 
-        setTimeout(
-            finishIntro,
-            700
-        );
-
+    if (introIndex >= introLines.length) {
         return;
     }
 
     introDynamic.textContent =
-        "> " +
-        introLines[introIndex];
+        "> " + introLines[introIndex];
 
     introIndex++;
 
     setTimeout(
         playIntro,
-        430
+        700
     );
 }
-
 
 function finishIntro() {
 
-    intro.classList.add(
-        "hidden"
-    );
+    if (!intro) return;
 
-    site.classList.add(
-        "loaded"
-    );
+    intro.classList.add("hidden");
 
-    systemStatus.textContent =
-        "CONNECTED";
+    setTimeout(() => {
 
-    systemStatus.style.color =
-        "#850000";
+        intro.style.display = "none";
 
-    console.log(
-        "%cENTITY CONNECTION ESTABLISHED",
-        "color:#a00000;font-weight:bold;"
-    );
-
+    }, 900);
 }
-
 
 setTimeout(
     playIntro,
     700
 );
 
-
-/* =========================================================
-   CLICK INTRO
-========================================================= */
-
 intro.addEventListener(
     "click",
-    () => {
-
-        if (
-            !intro.classList.contains(
-                "hidden"
-            )
-        ) {
-
-            finishIntro();
-
-        }
-
-    }
+    finishIntro
 );
 
 
-/* =========================================================
+/* ============================================================
    NAVIGATION
-========================================================= */
+============================================================ */
 
 document
-    .querySelectorAll(
-        "[data-page]"
-    )
+    .querySelectorAll("[data-page]")
     .forEach(button => {
 
         button.addEventListener(
             "click",
             () => {
 
-                const id =
-                    button.dataset.page;
-
                 const target =
                     document.getElementById(
-                        id
+                        button.dataset.page
                     );
 
-                if (!target) {
-
-                    console.error(
-                        "PAGE NOT FOUND:",
-                        id
-                    );
-
-                    return;
-                }
+                if (!target) return;
 
                 target.scrollIntoView({
                     behavior: "smooth"
                 });
 
-                console.log(
-                    "PAGE:",
-                    id
-                );
+                glitch();
 
             }
         );
@@ -223,48 +215,71 @@ document
     });
 
 
-/* =========================================================
-   ENTITY EYES FOLLOW MOUSE
-========================================================= */
+/* ============================================================
+   EYE TRACKING
+============================================================ */
 
 document.addEventListener(
     "mousemove",
     event => {
 
-        const x =
-            (event.clientX /
-                window.innerWidth) -
-            0.5;
+        if (!entity) return;
 
-        const y =
-            (event.clientY /
-                window.innerHeight) -
-            0.5;
+        const rect =
+            entity.getBoundingClientRect();
+
+        const centerX =
+            rect.left + rect.width / 2;
+
+        const centerY =
+            rect.top + rect.height / 2;
+
+        const dx =
+            event.clientX - centerX;
+
+        const dy =
+            event.clientY - centerY;
+
+        const angle =
+            Math.atan2(dy, dx);
+
+        const distance =
+            Math.min(
+                Math.hypot(dx, dy) / 12,
+                15
+            );
 
         const moveX =
-            x * 18;
+            Math.cos(angle) * distance;
 
         const moveY =
-            y * 10;
+            Math.sin(angle) * distance;
 
-        document
-            .querySelectorAll(
-                ".pupil"
-            )
-            .forEach(pupil => {
+        if (eyeLeft) {
+
+            const pupil =
+                eyeLeft.querySelector(".pupil");
+
+            if (pupil) {
 
                 pupil.style.transform =
                     `translate(${moveX}px, ${moveY}px)`;
 
-            });
+            }
 
-        if (entity) {
+        }
 
-            entity.style.transform =
-                `
-                translateY(-50%)
-                translate(${x * 10}px, ${y * 5}px)
-                `;
+        if (eyeRight) {
+
+            const pupil =
+                eyeRight.querySelector(".pupil");
+
+            if (pupil) {
+
+                pupil.style.transform =
+                    `translate(${moveX}px, ${moveY}px)`;
+
+            }
 
         }
 
@@ -272,11 +287,11 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   RANDOM HORROR MESSAGES
-========================================================= */
+/* ============================================================
+   HORROR MESSAGES
+============================================================ */
 
-const messages = [
+const horrorMessages = [
 
     "DON'T LOOK BEHIND YOU.",
 
@@ -302,105 +317,83 @@ const messages = [
 
     "LOOK AT HIS EYES.",
 
-    "THE CODE IS ALIVE."
+    "THE CODE IS ALIVE.",
+
+    "HE KNOWS.",
+
+    "YOU SHOULD NOT BE HERE."
 
 ];
 
-
 function showRandomMessage() {
 
+    if (!randomMessage) return;
+
     const message =
-        messages[
+        horrorMessages[
             Math.floor(
                 Math.random() *
-                messages.length
+                horrorMessages.length
             )
         ];
 
     randomMessage.textContent =
         message;
 
-    randomMessage.classList.add(
-        "visible"
-    );
-
-    setTimeout(
-        () => {
-
-            randomMessage.classList.remove(
-                "visible"
-            );
-
-        },
-        1800
-    );
-
 }
 
-
 setInterval(
-    () => {
-
-        if (
-            Math.random() <
-            0.65
-        ) {
-
-            showRandomMessage();
-
-        }
-
-    },
-    7000
+    showRandomMessage,
+    3500
 );
 
 
-/* =========================================================
-   RANDOM GLITCH
-========================================================= */
+/* ============================================================
+   GLITCH
+============================================================ */
 
 function glitch() {
 
     document.body.classList.add(
-        "glitch"
+        "glitching"
     );
 
-    distortion.style.opacity =
-        "1";
+    const redFlash =
+        document.getElementById(
+            "redFlash"
+        );
 
-    redFlash.style.opacity =
-        ".04";
+    if (redFlash) {
 
-    setTimeout(
-        () => {
+        redFlash.style.opacity =
+            ".15";
 
-            document.body.classList.remove(
-                "glitch"
-            );
-
-            distortion.style.opacity =
-                "0";
+        setTimeout(() => {
 
             redFlash.style.opacity =
                 "0";
 
-        },
-        500
-    );
+        }, 100);
+
+    }
+
+    setTimeout(() => {
+
+        document.body.classList.remove(
+            "glitching"
+        );
+
+    }, 350);
 
 }
-
 
 setInterval(
     () => {
 
         if (
-            Math.random() <
-            0.4
+            Math.random() < .6
         ) {
-
             glitch();
-
         }
 
     },
@@ -408,266 +401,241 @@ setInterval(
 );
 
 
-/* =========================================================
+/* ============================================================
    ENTER THE CODE
-========================================================= */
+============================================================ */
 
-document
-    .getElementById("enterCode")
-    .addEventListener(
+if (enterCode) {
+
+    enterCode.addEventListener(
         "click",
         () => {
 
-            console.warn(
-                "USER ENTERED THE CODE."
-            );
+            const story =
+                document.getElementById(
+                    "story"
+                );
 
-            document
-                .getElementById("story")
-                .scrollIntoView({
+            if (story) {
+
+                story.scrollIntoView({
                     behavior: "smooth"
                 });
+
+            }
 
             glitch();
 
         }
     );
 
+}
 
-/* =========================================================
+
+/* ============================================================
    DON'T CLICK
-========================================================= */
+============================================================ */
 
-document
-    .getElementById("watchButton")
-    .addEventListener(
+if (watchButton) {
+
+    watchButton.addEventListener(
         "click",
         () => {
 
-            console.log(
-                "BAD DECISION."
-            );
+            if (
+                Math.random() < .75
+            ) {
 
-            showRandomMessage();
+                triggerJumpscare();
 
-            setTimeout(
-                () => {
+            } else {
 
-                    if (
-                        Math.random() <
-                        .65
-                    ) {
+                glitch();
 
-                        triggerJumpscare();
-
-                    }
-
-                },
-                700
-            );
+            }
 
         }
     );
-
-
-/* =========================================================
-   SONG SYSTEM
-========================================================= */
-
-const songs =
-    document.querySelectorAll(
-        ".song"
-    );
-
-
-songs.forEach(song => {
-
-    song.addEventListener(
-        "click",
-        () => {
-
-            const name =
-                song.dataset.song;
-
-            openSong(name);
-
-        }
-    );
-
-});
-
-
-function openSong(name) {
-
-    modalTitle.textContent =
-        name;
-
-    modal.classList.add(
-        "active"
-    );
-
-    if (
-        name === "LAST CHANCE"
-    ) {
-
-        modalText.textContent =
-            "FILE RECOVERED. THE AUDIO IS STILL INTACT.";
-
-        console.log(
-            "LAST CHANCE accessed."
-        );
-
-    }
-
-    else if (
-        name === "ZALGO"
-    ) {
-
-        modalText.textContent =
-            "WARNING. DATA CORRUPTION LEVEL: CRITICAL.";
-
-        glitch();
-
-        console.warn(
-            "ZALGO FILE IS CORRUPTED."
-        );
-
-    }
-
-    else {
-
-        modalText.textContent =
-            "ACCESS DENIED. THIS FILE HAS NO NAME.";
-
-        console.warn(
-            "UNKNOWN FILE REQUESTED."
-        );
-
-    }
 
 }
 
 
-/* =========================================================
-   CLOSE MODAL
-========================================================= */
+/* ============================================================
+   SONG MODALS
+============================================================ */
 
-closeModal.addEventListener(
-    "click",
-    () => {
+document
+    .querySelectorAll(".song")
+    .forEach(song => {
 
-        modal.classList.remove(
-            "active"
+        song.addEventListener(
+            "click",
+            () => {
+
+                const name =
+                    song.dataset.song;
+
+                if (!modal) return;
+
+                modal.classList.add(
+                    "active"
+                );
+
+                modalTitle.textContent =
+                    name;
+
+                if (
+                    name === "LAST CHANCE"
+                ) {
+
+                    modalStatus.textContent =
+                        "RECOVERED AUDIO";
+
+                    modalText.textContent =
+                        "165 BPM // FILE INTACT // LAST ACCESS UNKNOWN.";
+
+                }
+
+                else if (
+                    name === "ZALGO"
+                ) {
+
+                    modalStatus.textContent =
+                        "CORRUPTED AUDIO";
+
+                    modalText.textContent =
+                        "THE FILE SHOULD NOT EXIST. SOMETHING IS STILL PLAYING.";
+
+                }
+
+                else {
+
+                    modalStatus.textContent =
+                        "ACCESS DENIED";
+
+                    modalText.textContent =
+                        "YOU ARE NOT SUPPOSED TO OPEN THIS FILE.";
+
+                }
+
+                glitch();
+
+            }
         );
 
-    }
-);
+    });
 
 
-modal.addEventListener(
-    "click",
-    event => {
+/* ============================================================
+   CLOSE MODAL
+============================================================ */
 
-        if (
-            event.target === modal
-        ) {
+const closeModal =
+    document.getElementById(
+        "closeModal"
+    );
+
+if (closeModal) {
+
+    closeModal.addEventListener(
+        "click",
+        () => {
 
             modal.classList.remove(
                 "active"
             );
 
         }
+    );
 
-    }
-);
+}
 
+if (modal) {
 
-/* =========================================================
-   MODAL ACTION
-========================================================= */
-
-modalAction.addEventListener(
-    "click",
-    () => {
-
-        console.log(
-            "EXECUTION REQUESTED."
-        );
-
-        modal.classList.remove(
-            "active"
-        );
-
-        glitch();
-
-        setTimeout(
-            () => {
-
-                showRandomMessage();
-
-            },
-            300
-        );
-
-    }
-);
-
-
-/* =========================================================
-   EXECUTE BUTTON
-========================================================= */
-
-document
-    .getElementById("executeButton")
-    .addEventListener(
+    modal.addEventListener(
         "click",
-        () => {
+        event => {
 
-            console.warn(
-                "EXECUTABLE START REQUESTED."
-            );
+            if (
+                event.target === modal
+            ) {
 
-            glitch();
+                modal.classList.remove(
+                    "active"
+                );
 
-            setTimeout(
-                () => {
-
-                    triggerJumpscare();
-
-                },
-                600
-            );
+            }
 
         }
     );
 
+}
 
-/* =========================================================
+
+/* ============================================================
+   MODAL ACTION
+============================================================ */
+
+if (modalAction) {
+
+    modalAction.addEventListener(
+        "click",
+        () => {
+
+            modal.classList.remove(
+                "active"
+            );
+
+            glitch();
+
+        }
+    );
+
+}
+
+
+/* ============================================================
    JUMPSCARE
-========================================================= */
-
-let scareRunning = false;
-
+============================================================ */
 
 function triggerJumpscare() {
 
-    if (scareRunning) {
-        return;
-    }
-
-    scareRunning = true;
-
-    console.warn(
-        "%cI SAW YOU.",
-        "background:#900;color:#fff;font-size:25px;"
-    );
+    if (!jumpscare) return;
 
     jumpscare.classList.add(
         "active"
     );
 
-    document.body.style.cursor =
-        "none";
+    const scareText =
+        document.getElementById(
+            "scareText"
+        );
+
+    if (scareText) {
+
+        const texts = [
+
+            "I SAW YOU",
+
+            "DON'T LOOK AWAY",
+
+            "YOU CAME BACK",
+
+            "RUN",
+
+            "I REMEMBER"
+
+        ];
+
+        scareText.textContent =
+            texts[
+                Math.floor(
+                    Math.random() *
+                    texts.length
+                )
+            ];
+
+    }
 
     setTimeout(
         () => {
@@ -676,11 +644,6 @@ function triggerJumpscare() {
                 "active"
             );
 
-            document.body.style.cursor =
-                "default";
-
-            scareRunning = false;
-
         },
         1300
     );
@@ -688,48 +651,579 @@ function triggerJumpscare() {
 }
 
 
-/* =========================================================
-   SECRET KEY SYSTEM
-========================================================= */
+/* ============================================================
+   DOWNLOAD SCENE
+============================================================ */
 
-let secretSequence = "";
+let downloadStarted = false;
+
+if (executeButton) {
+
+    executeButton.addEventListener(
+        "click",
+        startDownloadScene
+    );
+
+}
+
+function startDownloadScene() {
+
+    if (downloadStarted) {
+        return;
+    }
+
+    downloadStarted = true;
+
+    if (!downloadScene) {
+        return;
+    }
+
+    downloadScene.classList.add(
+        "active"
+    );
+
+    document.body.style.overflow =
+        "hidden";
+
+    glitch();
+
+    runDownloadSequence();
+
+}
+
+
+/* ============================================================
+   GET USER NAME
+============================================================ */
+
+function getUserName() {
+
+    /*
+        Browsers do NOT expose the real
+        Windows account/device owner name.
+
+        We first check information that
+        can safely exist in the browser.
+    */
+
+    let possibleName = "";
+
+    if (
+        navigator.userAgentData &&
+        navigator.userAgentData.platform
+    ) {
+
+        possibleName =
+            navigator.userAgentData.platform;
+
+    }
+
+    /*
+        Do not show a fake personal name.
+        If no useful name exists, use UNKNOWN USER.
+    */
+
+    if (
+        !possibleName ||
+        possibleName.length > 40
+    ) {
+
+        possibleName =
+            "UNKNOWN USER";
+
+    }
+
+    return possibleName
+        .toString()
+        .toUpperCase();
+
+}
+
+
+/* ============================================================
+   TERMINAL LINE
+============================================================ */
+
+function addDownloadLine(
+    text,
+    className = ""
+) {
+
+    if (!downloadLines) {
+        return;
+    }
+
+    const p =
+        document.createElement(
+            "p"
+        );
+
+    if (className) {
+
+        p.className =
+            className;
+
+    }
+
+    p.textContent =
+        text;
+
+    downloadLines.appendChild(
+        p
+    );
+
+    downloadLines.scrollTop =
+        downloadLines.scrollHeight;
+
+}
+
+
+/* ============================================================
+   TYPE LINE
+============================================================ */
+
+function typeDownloadLine(
+    text,
+    speed = 35,
+    className = ""
+) {
+
+    return new Promise(
+        resolve => {
+
+            if (!downloadLines) {
+                resolve();
+                return;
+            }
+
+            const p =
+                document.createElement(
+                    "p"
+                );
+
+            if (className) {
+                p.className =
+                    className;
+            }
+
+            downloadLines.appendChild(
+                p
+            );
+
+            let index = 0;
+
+            const interval =
+                setInterval(
+                    () => {
+
+                        p.textContent =
+                            text.slice(
+                                0,
+                                index
+                            );
+
+                        index++;
+
+                        if (
+                            index >
+                            text.length
+                        ) {
+
+                            clearInterval(
+                                interval
+                            );
+
+                            resolve();
+
+                        }
+
+                    },
+                    speed
+                );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   DOWNLOAD SEQUENCE
+============================================================ */
+
+async function runDownloadSequence() {
+
+    const userName =
+        getUserName();
+
+
+    /* CLEAR */
+
+    if (downloadLines) {
+
+        downloadLines.innerHTML =
+            "";
+
+    }
+
+
+    /* FIRST MESSAGE */
+
+    await wait(700);
+
+    await typeDownloadLine(
+        "> CONNECTION ACCEPTED",
+        30
+    );
+
+    await wait(500);
+
+
+    /* HELLO */
+
+    await typeDownloadLine(
+        "> HELLO, " + userName,
+        65,
+        "dangerLine"
+    );
+
+    await wait(1000);
+
+
+    /* STRANGE MESSAGES */
+
+    await typeDownloadLine(
+        "> IDENTIFYING USER...",
+        30
+    );
+
+    await wait(400);
+
+    await typeDownloadLine(
+        "> USER PROFILE: UNKNOWN",
+        25
+    );
+
+    await wait(500);
+
+    await typeDownloadLine(
+        "> MEMORY ACCESS: GRANTED",
+        30
+    );
+
+    await wait(600);
+
+
+    /* GLITCH */
+
+    glitch();
+
+    await typeDownloadLine(
+        "> ̷̢̛͉̓R̸͓̎Ę̷͇͝C̶͙͌O̷̬͐V̵̜͐E̸͎͛Ṟ̴͌Y̷͎͒",
+        20,
+        "glitchLine"
+    );
+
+    await wait(350);
+
+    await typeDownloadLine(
+        "> K̷E̶E̸P̴ ̷L̶O̷O̴K̷I̶N̵G̷",
+        20,
+        "glitchLine"
+    );
+
+    await wait(500);
+
+    await typeDownloadLine(
+        "> HE IS STILL HERE.",
+        45,
+        "dangerLine"
+    );
+
+    await wait(900);
+
+
+    /* MORE CORRUPTION */
+
+    glitch();
+
+    await typeDownloadLine(
+        "> 0x00000000",
+        25
+    );
+
+    await typeDownloadLine(
+        "> 0x534F4E4943",
+        25
+    );
+
+    await typeDownloadLine(
+        "> 0x455845",
+        25
+    );
+
+    await wait(500);
+
+    await typeDownloadLine(
+        "> DON'T CLOSE THIS WINDOW.",
+        35,
+        "dangerLine"
+    );
+
+    await wait(800);
+
+
+    /* FINAL */
+
+    await typeDownloadLine(
+        "> FILE FOUND.",
+        35,
+        "dangerLine"
+    );
+
+    await wait(500);
+
+    await typeDownloadLine(
+        "> PREPARING DOWNLOAD...",
+        35
+    );
+
+    await wait(800);
+
+
+    /* PROGRESS */
+
+    startFakeProgress();
+
+}
+
+
+/* ============================================================
+   FAKE DOWNLOAD PROGRESS
+============================================================ */
+
+function startFakeProgress() {
+
+    if (
+        !downloadProgressContainer ||
+        !downloadProgress ||
+        !downloadPercent
+    ) {
+        return;
+    }
+
+    downloadProgressContainer.style.display =
+        "block";
+
+    let progress = 0;
+
+    const interval =
+        setInterval(
+            () => {
+
+                let amount =
+                    Math.floor(
+                        Math.random() * 5
+                    ) + 1;
+
+                progress += amount;
+
+                if (
+                    progress >= 100
+                ) {
+
+                    progress = 100;
+
+                    clearInterval(
+                        interval
+                    );
+
+                    finishDownloadScene();
+
+                }
+
+                downloadProgress.style.width =
+                    progress + "%";
+
+                downloadPercent.textContent =
+                    progress + "%";
+
+                /*
+                    Random corruption during
+                    the fake download.
+                */
+
+                if (
+                    Math.random() < .12
+                ) {
+
+                    glitch();
+
+                }
+
+            },
+            90
+        );
+
+}
+
+
+/* ============================================================
+   FINISH DOWNLOAD SCENE
+============================================================ */
+
+function finishDownloadScene() {
+
+    if (!downloadFinal) {
+        return;
+    }
+
+    glitch();
+
+    downloadFinal.style.display =
+        "block";
+
+    if (downloadFinalText) {
+
+        downloadFinalText.textContent =
+            "THE FILE IS READY.";
+
+    }
+
+    /*
+        The user gets a short final
+        horror pause before the actual
+        download button appears.
+    */
+
+    if (realDownloadButton) {
+
+        realDownloadButton.style.display =
+            "none";
+
+        setTimeout(
+            () => {
+
+                if (realDownloadButton) {
+
+                    realDownloadButton.style.display =
+                        "inline-block";
+
+                }
+
+                if (downloadFinalText) {
+
+                    downloadFinalText.textContent =
+                        "DOWNLOAD RE-RUN";
+
+                }
+
+            },
+            1800
+        );
+
+    }
+
+}
+
+
+/* ============================================================
+   REAL DOWNLOAD
+============================================================ */
+
+if (realDownloadButton) {
+
+    realDownloadButton.addEventListener(
+        "click",
+        () => {
+
+            addDownloadLine(
+                "> TRANSFERRING FILE..."
+            );
+
+            addDownloadLine(
+                "> GOODBYE.",
+                "dangerLine"
+            );
+
+            glitch();
+
+            setTimeout(
+                () => {
+
+                    /*
+                        Open the actual GitHub
+                        release file.
+                    */
+
+                    window.location.href =
+                        DOWNLOAD_URL;
+
+                },
+                500
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   WAIT
+============================================================ */
+
+function wait(ms) {
+
+    return new Promise(
+        resolve => {
+
+            setTimeout(
+                resolve,
+                ms
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   SECRET KEYBOARD EVENT
+============================================================ */
+
+let secretInput = "";
 
 const secretCode =
     "rerun";
-
 
 document.addEventListener(
     "keydown",
     event => {
 
-        secretSequence +=
+        secretInput +=
             event.key.toLowerCase();
 
         if (
-            secretSequence.length >
+            secretInput.length >
             secretCode.length
         ) {
 
-            secretSequence =
-                secretSequence.slice(
+            secretInput =
+                secretInput.slice(
                     -secretCode.length
                 );
 
         }
 
-        console.log(
-            "KEY BUFFER:",
-            secretSequence
-        );
-
         if (
-            secretSequence ===
-            secretCode
+            secretInput === secretCode
         ) {
 
             activateSecret();
 
-            secretSequence = "";
+            secretInput = "";
 
         }
 
@@ -737,127 +1231,176 @@ document.addEventListener(
 );
 
 
-/* =========================================================
-   SECRET EVENT
-========================================================= */
+/* ============================================================
+   SECRET
+============================================================ */
 
 function activateSecret() {
-
-    console.warn(
-        "%cSECRET CODE ACCEPTED.",
-        "color:#ff0000;font-size:20px;"
-    );
-
-    glitch();
 
     const terminal =
         document.getElementById(
             "terminal"
         );
 
-    terminal.innerHTML += `
+    if (!terminal) {
+        return;
+    }
 
-        <p class="red">
-        > SECRET COMMAND ACCEPTED.
-        </p>
+    const lines = [
 
-        <p class="red">
-        > RE-RUN PROTOCOL ACTIVE.
-        </p>
+        "> SECRET COMMAND ACCEPTED",
 
-        <p class="red">
-        > ENTITY IS AWARE.
-        </p>
+        "> YOU FOUND THE BACK DOOR.",
 
-    `;
+        "> HE WAS WAITING FOR THIS.",
 
-    showRandomMessage();
+        "> DO NOT TRUST THE DOWNLOAD."
+
+    ];
+
+    lines.forEach(
+        line => {
+
+            const p =
+                document.createElement(
+                    "p"
+                );
+
+            p.className =
+                "dangerText";
+
+            p.textContent =
+                line;
+
+            terminal.appendChild(
+                p
+            );
+
+        }
+    );
+
+    glitch();
 
 }
 
 
-/* =========================================================
+/* ============================================================
    IDLE DETECTION
-========================================================= */
+============================================================ */
 
-let lastActivity =
-    Date.now();
+let idleTimer;
 
+function resetIdleTimer() {
 
-document.addEventListener(
+    clearTimeout(
+        idleTimer
+    );
+
+    idleTimer =
+        setTimeout(
+            () => {
+
+                if (
+                    Math.random() < .5
+                ) {
+
+                    showRandomMessage();
+
+                }
+
+            },
+            20000
+        );
+
+}
+
+[
     "mousemove",
-    () => {
-
-        lastActivity =
-            Date.now();
-
-    }
-);
-
-
-document.addEventListener(
     "keydown",
-    () => {
+    "click",
+    "scroll"
+].forEach(
+    event => {
 
-        lastActivity =
-            Date.now();
+        document.addEventListener(
+            event,
+            resetIdleTimer
+        );
 
     }
 );
 
+resetIdleTimer();
+
+
+/* ============================================================
+   TAB TITLE
+============================================================ */
+
+let originalTitle =
+    document.title;
 
 setInterval(
     () => {
 
-        const idleTime =
-            Date.now() -
-            lastActivity;
-
         if (
-            idleTime >
-            20000 &&
-            Math.random() <
-            .3
+            Math.random() < .25
         ) {
 
-            showRandomMessage();
+            document.title =
+                "DON'T LOOK AWAY";
 
-            console.log(
-                "USER IDLE."
+            setTimeout(
+                () => {
+
+                    document.title =
+                        originalTitle;
+
+                },
+                700
             );
 
         }
 
     },
+    7000
+);
+
+
+/* ============================================================
+   RANDOM CONSOLE MESSAGE
+============================================================ */
+
+setTimeout(
+    () => {
+
+        console.log(
+            "%c[RE-RUN] USER DETECTED.",
+            "color:#900;"
+        );
+
+    },
     5000
 );
 
+setTimeout(
+    () => {
 
-/* =========================================================
-   CONSOLE EASTER EGG
-========================================================= */
+        console.log(
+            "%c[RE-RUN] HE IS WAITING.",
+            "color:#600;"
+        );
 
-console.log(
-    "%cThere are things hidden here.",
-    "color:#444;font-style:italic;"
-);
-
-console.log(
-    "%cType: rerun",
-    "color:#700000;font-weight:bold;"
-);
-
-console.log(
-    "%cBut don't expect anything good.",
-    "color:#333;"
+    },
+    10000
 );
 
 
-/* =========================================================
-   FINAL STATUS
-========================================================= */
+/* ============================================================
+   READY
+============================================================ */
 
 console.log(
-    "%cRE-RUN HORROR SYSTEM READY.",
-    "color:#a00000;font-weight:bold;"
+    "%cSYSTEM READY.",
+    "color:#555;"
 );
