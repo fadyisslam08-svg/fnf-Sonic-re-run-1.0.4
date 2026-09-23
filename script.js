@@ -1,1002 +1,683 @@
-/* ============================================================
-   SONIC RE-RUN WEBSITE
-   Version: 1.0000.4
-============================================================ */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
+html {
+    scroll-behavior: smooth;
+}
 
-/* ============================================================
-   CONFIG
-============================================================ */
-
-const CONFIG = {
-
-    version: "1.0000.4",
-
-    logoPNG:
-        "assets/menu/title/logoRERUN.png",
-
-    logoXML:
-        "assets/menu/title/logoRERUN.xml",
-
-    sonicBG:
-        "assets/menu/title/sonic_bg.png",
-
-    enterFPS: 12,
-
-    enterFrameCount: 25,
-
-    idleFrame: 24
-
-};
-
-
-/* ============================================================
-   DOM
-============================================================ */
-
-const bootScreen =
-    document.getElementById("bootScreen");
-
-const bootProgressBar =
-    document.getElementById("bootProgressBar");
-
-const bootStatus =
-    document.getElementById("bootStatus");
-
-const titleScreen =
-    document.getElementById("titleScreen");
-
-const mainMenu =
-    document.getElementById("mainMenu");
-
-const titleLogo =
-    document.getElementById("titleLogo");
-
-const titleGlow =
-    document.getElementById("titleGlow");
-
-const pressEnter =
-    document.getElementById("pressEnter");
-
-const menuOptions =
-    [...document.querySelectorAll(".menuOption")];
-
-const panel =
-    document.getElementById("panel");
-
-const panelTitle =
-    document.getElementById("panelTitle");
-
-const panelText =
-    document.getElementById("panelText");
-
-
-/* ============================================================
-   STATE
-============================================================ */
-
-let state = "boot";
-
-let logoFrames = [];
-
-let currentLogoFrame = 24;
-
-let logoAnimationTimer = null;
-
-let menuIndex = 0;
-
-let glitchActive = false;
-
-let titleCanSkip = false;
-
-
-/* ============================================================
-   BOOT
-============================================================ */
-
-function startBoot() {
-
-    let progress = 0;
-
-    const messages = [
-        "INITIALIZING...",
-        "LOADING CODE...",
-        "LOADING ASSETS...",
-        "LOADING SONIC...",
-        "RESTORING DATA...",
-        "SYSTEM READY"
-    ];
-
-    const timer = setInterval(() => {
-
-        progress += Math.random() * 8 + 4;
-
-        if (progress >= 100) {
-
-            progress = 100;
-
-            clearInterval(timer);
-
-            bootProgressBar.style.width = "100%";
-
-            bootStatus.textContent =
-                messages[messages.length - 1];
-
-            setTimeout(() => {
-
-                bootScreen.classList.add("hidden");
-
-                startTitleScreen();
-
-            }, 500);
-
-            return;
-        }
-
-        bootProgressBar.style.width =
-            `${progress}%`;
-
-        const index =
-            Math.min(
-                messages.length - 1,
-                Math.floor(
-                    progress /
-                    (100 / messages.length)
-                )
-            );
-
-        bootStatus.textContent =
-            messages[index];
-
-    }, 120);
-
+body {
+    background: #08080d;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 
-/* ============================================================
-   LOAD XML
-============================================================ */
+/* ================= NAVBAR ================= */
 
-async function loadLogoXML() {
+.navbar {
+    position: fixed;
 
-    try {
+    top: 0;
+    left: 0;
 
-        const response =
-            await fetch(CONFIG.logoXML);
+    width: 100%;
+    height: 75px;
 
-        if (!response.ok)
-            throw new Error(
-                "Could not load logo XML"
-            );
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        const xmlText =
-            await response.text();
+    padding: 0 6%;
 
-        const parser =
-            new DOMParser();
+    background: rgba(8, 8, 13, 0.85);
 
-        const xml =
-            parser.parseFromString(
-                xmlText,
-                "application/xml"
-            );
+    border-bottom: 1px solid #292936;
 
-        const frames =
-            [...xml.querySelectorAll("SubTexture")];
+    backdrop-filter: blur(12px);
 
-        const parsed = [];
+    z-index: 1000;
+}
 
-        for (const frame of frames) {
+.logo {
+    font-size: 25px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
 
-            const name =
-                frame.getAttribute("name");
+.logo span {
+    color: #ff2bd6;
+}
 
-            const x =
-                Number(frame.getAttribute("x"));
+nav {
+    display: flex;
+    gap: 10px;
+}
 
-            const y =
-                Number(frame.getAttribute("y"));
+nav button {
+    border: none;
+    background: transparent;
 
-            const width =
-                Number(frame.getAttribute("width"));
+    color: #aaa;
 
-            const height =
-                Number(frame.getAttribute("height"));
+    padding: 10px 14px;
 
-            if (!name)
-                continue;
+    font-weight: bold;
 
-            /*
-             * Same idea as:
-             *
-             * addByPrefix("enter", "TITLE0", ...)
-             *
-             * in Codename Engine.
-             */
+    cursor: pointer;
 
-            if (name.startsWith("TITLE0")) {
+    transition: 0.2s;
+}
 
-                parsed.push({
+nav button:hover {
+    color: #ffffff;
+}
 
-                    name,
-                    x,
-                    y,
-                    width,
-                    height
 
-                });
+/* ================= SECTIONS ================= */
 
-            }
+.section {
+    min-height: 100vh;
 
-        }
+    padding: 120px 8% 80px;
 
-        parsed.sort(
-            (a, b) =>
-                extractFrameNumber(a.name) -
-                extractFrameNumber(b.name)
+    position: relative;
+}
+
+
+/* ================= HERO ================= */
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at 80% 50%, #ff2bd622, transparent 35%),
+        radial-gradient(circle at 20% 80%, #20e8ff18, transparent 35%),
+        #08080d;
+}
+
+.hero-content {
+    max-width: 650px;
+
+    position: relative;
+
+    z-index: 2;
+}
+
+.tag {
+    display: inline-block;
+
+    padding: 7px 12px;
+
+    border: 1px solid #444452;
+
+    color: #20e8ff;
+
+    font-size: 11px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(70px, 10vw, 150px);
+
+    line-height: 0.78;
+
+    font-weight: 1000;
+
+    letter-spacing: -8px;
+}
+
+.hero h1 span {
+    color: #ff2bd6;
+
+    text-shadow:
+        5px 5px 0 #20e8ff;
+}
+
+.hero p {
+    max-width: 500px;
+
+    margin-top: 35px;
+
+    color: #a5a5b0;
+
+    font-size: 18px;
+
+    line-height: 1.6;
+}
+
+.buttons {
+    display: flex;
+    gap: 15px;
+
+    margin-top: 35px;
+}
+
+
+/* ================= BUTTONS ================= */
+
+.main-button,
+.secondary-button {
+    padding: 15px 28px;
+
+    border: none;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.main-button {
+    background: #ff2bd6;
+
+    color: white;
+
+    box-shadow: 5px 5px 0 #20e8ff;
+}
+
+.main-button:hover {
+    transform: translate(3px, 3px);
+
+    box-shadow: 2px 2px 0 #20e8ff;
+}
+
+.secondary-button {
+    background: #20202b;
+
+    color: white;
+
+    border: 1px solid #41414d;
+}
+
+.secondary-button:hover {
+    background: #292936;
+}
+
+
+/* ================= HERO VISUAL ================= */
+
+.hero-visual {
+    width: 420px;
+    height: 420px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.disc {
+    width: 330px;
+    height: 330px;
+
+    border-radius: 50%;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            #171722 0px,
+            #171722 7px,
+            #242432 8px,
+            #242432 12px
         );
 
-        logoFrames = parsed;
+    border: 8px solid #30303d;
 
-        console.log(
-            "[SONIC RE-RUN] Loaded Sparrow frames:",
-            logoFrames
-        );
+    animation: spin 12s linear infinite;
 
-        return true;
-
-    }
-    catch (error) {
-
-        console.error(
-            "[SONIC RE-RUN] XML ERROR:",
-            error
-        );
-
-        return false;
-
-    }
-
+    box-shadow:
+        0 0 80px #ff2bd633;
 }
 
+.disc-center {
+    width: 70px;
+    height: 70px;
 
-/* ============================================================
-   FRAME NUMBER
-============================================================ */
+    border-radius: 50%;
 
-function extractFrameNumber(name) {
+    background: #ff2bd6;
 
-    const match =
-        name.match(/(\d+)$/);
-
-    if (!match)
-        return 0;
-
-    return Number(match[1]);
-
+    border: 15px solid #20e8ff;
 }
 
-
-/* ============================================================
-   CREATE FRAME
-============================================================ */
-
-async function createFrameImage(frame) {
-
-    return new Promise(
-        (resolve, reject) => {
-
-            const image =
-                new Image();
-
-            image.onload = () => {
-
-                const canvas =
-                    document.createElement("canvas");
-
-                canvas.width =
-                    frame.width;
-
-                canvas.height =
-                    frame.height;
-
-                const ctx =
-                    canvas.getContext("2d");
-
-                ctx.drawImage(
-                    image,
-
-                    frame.x,
-                    frame.y,
-                    frame.width,
-                    frame.height,
-
-                    0,
-                    0,
-                    frame.width,
-                    frame.height
-                );
-
-                resolve(
-                    canvas.toDataURL("image/png")
-                );
-
-            };
-
-            image.onerror =
-                reject;
-
-            image.src =
-                CONFIG.logoPNG;
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   PREPARE LOGO
-============================================================ */
-
-async function prepareLogo() {
-
-    const loaded =
-        await loadLogoXML();
-
-    if (!loaded ||
-        logoFrames.length === 0) {
-
-        /*
-         * Fallback if XML is unavailable.
-         */
-
-        titleLogo.src =
-            CONFIG.logoPNG;
-
-        titleGlow.src =
-            CONFIG.logoPNG;
-
-        return;
-
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
     }
 
+    to {
+        transform: rotate(360deg);
+    }
+}
 
-    const generatedFrames = [];
+.note {
+    position: absolute;
 
-    for (const frame of logoFrames) {
+    font-size: 60px;
 
-        const src =
-            await createFrameImage(frame);
+    font-weight: 900;
 
-        generatedFrames.push(src);
+    text-shadow: 4px 4px 0 #000;
 
+    animation: float 2s ease-in-out infinite;
+}
+
+.note1 {
+    top: 25px;
+    left: 20px;
+
+    color: #20e8ff;
+}
+
+.note2 {
+    bottom: 30px;
+    left: 50px;
+
+    color: #ff2bd6;
+
+    animation-delay: .3s;
+}
+
+.note3 {
+    top: 80px;
+    right: 0;
+
+    color: #20e8ff;
+
+    animation-delay: .6s;
+}
+
+.note4 {
+    bottom: 30px;
+    right: 35px;
+
+    color: #ff2bd6;
+
+    animation-delay: .9s;
+}
+
+@keyframes float {
+    50% {
+        transform: translateY(-15px) rotate(5deg);
+    }
+}
+
+
+/* ================= TITLES ================= */
+
+.section-title {
+    display: flex;
+
+    gap: 20px;
+
+    align-items: flex-start;
+
+    margin-bottom: 60px;
+}
+
+.section-title > span {
+    color: #ff2bd6;
+
+    font-size: 14px;
+
+    font-weight: bold;
+}
+
+.section-title h2 {
+    font-size: 55px;
+
+    letter-spacing: -3px;
+}
+
+.section-title p {
+    margin-top: 5px;
+
+    color: #777;
+}
+
+
+/* ================= SONGS ================= */
+
+.song-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.song-card {
+    min-height: 240px;
+
+    padding: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: space-between;
+
+    background: #12121a;
+
+    border: 1px solid #2d2d3a;
+
+    transition: .25s;
+}
+
+.song-card:hover {
+    transform: translateY(-8px);
+
+    border-color: #ff2bd6;
+
+    box-shadow: 0 15px 40px #ff2bd61a;
+}
+
+.song-number {
+    color: #20e8ff;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+.song-info h3 {
+    font-size: 25px;
+
+    margin-bottom: 8px;
+}
+
+.song-info p {
+    color: #777;
+}
+
+.song-button {
+    width: 100%;
+
+    padding: 12px;
+
+    background: #20202b;
+
+    border: 1px solid #3b3b49;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.song-button:hover {
+    background: #ff2bd6;
+
+    border-color: #ff2bd6;
+}
+
+
+/* ================= CHARACTERS ================= */
+
+.characters {
+    background: #0d0d14;
+}
+
+.character-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.character-card {
+    padding: 45px 25px;
+
+    text-align: center;
+
+    background: #14141d;
+
+    border: 1px solid #2b2b36;
+}
+
+.character-icon {
+    width: 120px;
+    height: 120px;
+
+    margin: auto auto 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 20px;
+
+    background: #20202c;
+
+    font-size: 35px;
+
+    font-weight: 1000;
+
+    transform: rotate(-4deg);
+}
+
+.boyfriend .character-icon {
+    color: #20e8ff;
+}
+
+.opponent .character-icon {
+    color: #ff2bd6;
+}
+
+.gf .character-icon {
+    color: #ffdb4d;
+}
+
+.character-card h3 {
+    margin-bottom: 10px;
+}
+
+.character-card p {
+    color: #777;
+}
+
+
+/* ================= DOWNLOAD ================= */
+
+.download {
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    background:
+        radial-gradient(circle, #20e8ff10, transparent 50%),
+        #08080d;
+}
+
+.download-box {
+    max-width: 650px;
+}
+
+.download h2 {
+    font-size: clamp(60px, 9vw, 120px);
+
+    line-height: .8;
+
+    letter-spacing: -7px;
+
+    margin-bottom: 35px;
+}
+
+.download h2 span {
+    color: #20e8ff;
+}
+
+.download p {
+    color: #999;
+
+    margin-bottom: 30px;
+}
+
+
+/* ================= FOOTER ================= */
+
+footer {
+    min-height: 90px;
+
+    padding: 30px 8%;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    border-top: 1px solid #252530;
+
+    color: #666;
+
+    font-size: 12px;
+}
+
+
+/* ================= MODAL ================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(0, 0, 0, .75);
+
+    backdrop-filter: blur(8px);
+
+    z-index: 2000;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-box {
+    width: min(90%, 450px);
+
+    padding: 40px;
+
+    text-align: center;
+
+    background: #15151f;
+
+    border: 1px solid #444;
+
+    box-shadow: 0 30px 100px #000;
+}
+
+.close {
+    float: right;
+
+    background: transparent;
+
+    border: none;
+
+    color: #888;
+
+    font-size: 30px;
+
+    cursor: pointer;
+}
+
+.modal-icon {
+    font-size: 70px;
+
+    color: #ff2bd6;
+
+    margin: 20px;
+}
+
+.modal-box h2 {
+    font-size: 35px;
+}
+
+.modal-box p {
+    margin: 15px 0 25px;
+
+    color: #999;
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 850px) {
+
+    .navbar {
+        padding: 0 4%;
     }
 
-    logoFrames =
-        generatedFrames.map(
-            (src, index) => ({
-                src,
-                index
-            })
-        );
-
-
-    /*
-     * Initial idle frame:
-     *
-     * TITLE0024
-     */
-
-    showLogoFrame(
-        CONFIG.idleFrame
-    );
-
-}
-
-
-/* ============================================================
-   SHOW LOGO FRAME
-============================================================ */
-
-function showLogoFrame(index) {
-
-    if (!logoFrames.length)
-        return;
-
-    index =
-        Math.max(
-            0,
-            Math.min(
-                index,
-                logoFrames.length - 1
-            )
-        );
-
-    currentLogoFrame =
-        index;
-
-    const src =
-        logoFrames[index].src;
-
-    titleLogo.src = src;
-
-    titleGlow.src = src;
-
-}
-
-
-/* ============================================================
-   ENTER ANIMATION
-============================================================ */
-
-function playEnterAnimation() {
-
-    stopLogoAnimation();
-
-    if (!logoFrames.length)
-        return;
-
-
-    let frame = 0;
-
-    const frameTime =
-        1000 / CONFIG.enterFPS;
-
-
-    showLogoFrame(frame);
-
-
-    logoAnimationTimer =
-        setInterval(() => {
-
-            frame++;
-
-            if (
-                frame >=
-                Math.min(
-                    CONFIG.enterFrameCount,
-                    logoFrames.length
-                )
-            ) {
-
-                stopLogoAnimation();
-
-                /*
-                 * Same idea as:
-                 *
-                 * addByIndices(
-                 *     "idle",
-                 *     "TITLE0",
-                 *     [24],
-                 *     "",
-                 *     24,
-                 *     false
-                 * )
-                 */
-
-                showLogoFrame(
-                    CONFIG.idleFrame
-                );
-
-                titleCanSkip = true;
-
-                return;
-
-            }
-
-            showLogoFrame(frame);
-
-        }, frameTime);
-
-}
-
-
-/* ============================================================
-   STOP LOGO ANIMATION
-============================================================ */
-
-function stopLogoAnimation() {
-
-    if (logoAnimationTimer !== null) {
-
-        clearInterval(
-            logoAnimationTimer
-        );
-
-        logoAnimationTimer = null;
-
+    nav button {
+        display: none;
     }
 
-}
+    .hero {
+        flex-direction: column;
 
+        justify-content: center;
 
-/* ============================================================
-   TITLE SCREEN
-============================================================ */
-
-async function startTitleScreen() {
-
-    state = "title";
-
-    titleScreen.classList.remove(
-        "hidden"
-    );
-
-    titleCanSkip = false;
-
-    await prepareLogo();
-
-    /*
-     * Simulate:
-     *
-     * step 4
-     */
-
-    setTimeout(() => {
-
-        playEnterAnimation();
-
-        forceGlitch();
-
-    }, 350);
-
-
-    /*
-     * Simulate:
-     *
-     * step 14
-     */
-
-    setTimeout(() => {
-
-        pressEnter.style.opacity = "1";
-
-    }, 1500);
-
-}
-
-
-/* ============================================================
-   ENTER TITLE
-============================================================ */
-
-function enterTitle() {
-
-    if (state !== "title")
-        return;
-
-    if (!titleCanSkip)
-        return;
-
-    stopLogoAnimation();
-
-    flashScreen();
-
-    setTimeout(() => {
-
-        titleScreen.classList.add(
-            "hidden"
-        );
-
-        openMainMenu();
-
-    }, 450);
-
-}
-
-
-/* ============================================================
-   FLASH
-============================================================ */
-
-function flashScreen() {
-
-    const flash =
-        document.createElement("div");
-
-    flash.style.position =
-        "fixed";
-
-    flash.style.inset =
-        "0";
-
-    flash.style.background =
-        "#fff";
-
-    flash.style.zIndex =
-        "9999";
-
-    flash.style.pointerEvents =
-        "none";
-
-    document.body.appendChild(
-        flash
-    );
-
-    flash.animate(
-        [
-            {
-                opacity: 1
-            },
-            {
-                opacity: 0
-            }
-        ],
-        {
-            duration: 450,
-            easing: "ease-out"
-        }
-    );
-
-    setTimeout(() => {
-
-        flash.remove();
-
-    }, 500);
-
-}
-
-
-/* ============================================================
-   GLITCH
-============================================================ */
-
-function forceGlitch() {
-
-    if (glitchActive)
-        return;
-
-    glitchActive = true;
-
-    titleLogo.classList.add(
-        "glitch"
-    );
-
-    titleGlow.classList.add(
-        "glitch"
-    );
-
-
-    let count = 0;
-
-    const timer =
-        setInterval(() => {
-
-            count++;
-
-            if (count >= 10) {
-
-                clearInterval(timer);
-
-                titleLogo.classList.remove(
-                    "glitch"
-                );
-
-                titleGlow.classList.remove(
-                    "glitch"
-                );
-
-                glitchActive = false;
-
-                return;
-
-            }
-
-            /*
-             * Small random displacement.
-             */
-
-            const x =
-                Math.floor(
-                    Math.random() * 50
-                ) - 25;
-
-            const y =
-                Math.floor(
-                    Math.random() * 20
-                ) - 10;
-
-            titleLogo.style.translate =
-                `${x}px ${y}px`;
-
-            titleGlow.style.translate =
-                `${x - 3}px ${y - 3}px`;
-
-        }, 50);
-
-}
-
-
-/* ============================================================
-   MAIN MENU
-============================================================ */
-
-function openMainMenu() {
-
-    state = "menu";
-
-    mainMenu.classList.remove(
-        "hidden"
-    );
-
-    menuIndex = 0;
-
-    updateMenu();
-
-}
-
-
-/* ============================================================
-   UPDATE MENU
-============================================================ */
-
-function updateMenu() {
-
-    menuOptions.forEach(
-        (option, index) => {
-
-            option.classList.toggle(
-                "selected",
-                index === menuIndex
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   MENU NAVIGATION
-============================================================ */
-
-function menuUp() {
-
-    if (state !== "menu")
-        return;
-
-    menuIndex--;
-
-    if (menuIndex < 0)
-        menuIndex =
-            menuOptions.length - 1;
-
-    updateMenu();
-
-}
-
-
-function menuDown() {
-
-    if (state !== "menu")
-        return;
-
-    menuIndex++;
-
-    if (
-        menuIndex >=
-        menuOptions.length
-    )
-        menuIndex = 0;
-
-    updateMenu();
-
-}
-
-
-/* ============================================================
-   MENU SELECT
-============================================================ */
-
-function selectMenu() {
-
-    if (state !== "menu")
-        return;
-
-    switch (menuIndex) {
-
-        case 0:
-
-            openPanel(
-                "STORY MODE",
-                "STORY MODE\n\nThe Sonic RE-RUN story will be available here."
-            );
-
-            break;
-
-
-        case 1:
-
-            openPanel(
-                "FREEPLAY",
-                "FREEPLAY\n\nSelect a song to begin."
-            );
-
-            break;
-
-
-        case 2:
-
-            openPanel(
-                "OPTIONS",
-                "OPTIONS\n\nSettings will be added here."
-            );
-
-            break;
-
-
-        case 3:
-
-            openPanel(
-                "CREDITS",
-                "SONIC RE-RUN\n\nBACK FROM THE CODE\n\nCreated by Fadi."
-            );
-
-            break;
-
+        text-align: center;
     }
 
-}
-
-
-/* ============================================================
-   PANEL
-============================================================ */
-
-function openPanel(title, text) {
-
-    state = "panel";
-
-    panelTitle.textContent =
-        title;
-
-    panelText.textContent =
-        text;
-
-    panel.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-function closePanel() {
-
-    if (state !== "panel")
-        return;
-
-    panel.classList.add(
-        "hidden"
-    );
-
-    state = "menu";
-
-}
-
-
-/* ============================================================
-   KEYBOARD
-============================================================ */
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        switch (event.key) {
-
-            case "Enter":
-
-                if (state === "title") {
-
-                    enterTitle();
-
-                }
-                else if (state === "menu") {
-
-                    selectMenu();
-
-                }
-
-                break;
-
-
-            case "ArrowUp":
-
-                if (state === "menu") {
-
-                    menuUp();
-
-                }
-
-                break;
-
-
-            case "ArrowDown":
-
-                if (state === "menu") {
-
-                    menuDown();
-
-                }
-
-                break;
-
-
-            case "Escape":
-
-                if (state === "panel") {
-
-                    closePanel();
-
-                }
-
-                break;
-
-
-            case "g":
-            case "G":
-
-                if (state === "title") {
-
-                    forceGlitch();
-
-                }
-
-                break;
-
-        }
-
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
     }
-);
 
-
-/* ============================================================
-   MOUSE
-============================================================ */
-
-menuOptions.forEach(
-    (option, index) => {
-
-        option.addEventListener(
-            "mouseenter",
-            () => {
-
-                menuIndex = index;
-
-                updateMenu();
-
-            }
-        );
-
-
-        option.addEventListener(
-            "click",
-            () => {
-
-                menuIndex = index;
-
-                selectMenu();
-
-            }
-        );
-
+    .buttons {
+        justify-content: center;
     }
-);
 
+    .hero-visual {
+        width: 300px;
+        height: 300px;
 
-pressEnter.addEventListener(
-    "click",
-    () => {
-
-        enterTitle();
-
+        margin-top: 50px;
     }
-);
 
+    .disc {
+        width: 220px;
+        height: 220px;
+    }
 
-/* ============================================================
-   START
-============================================================ */
+    .song-grid,
+    .character-grid {
+        grid-template-columns: 1fr;
+    }
 
-startBoot();
+    .section-title h2 {
+        font-size: 42px;
+    }
+
+    footer {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+}
