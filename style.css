@@ -1,7 +1,11 @@
+/* ============================================================
+   RESET
+============================================================ */
+
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -10,326 +14,228 @@ html {
 
 body {
     background: #000;
-    color: #d8d8d8;
-    font-family: Arial, Helvetica, sans-serif;
+    color: #eee;
+    font-family: "Courier New", monospace;
     overflow-x: hidden;
-    cursor: default;
 }
 
 
-/* =========================================================
-   GLOBAL HORROR EFFECTS
-========================================================= */
+/* ============================================================
+   GLOBAL EFFECTS
+============================================================ */
+
+#blackout {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+}
+
+#static {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    pointer-events: none;
+    opacity: .06;
+
+    background-image:
+        repeating-radial-gradient(
+            circle at 0 0,
+            transparent 0,
+            rgba(255,255,255,.12) 1px,
+            transparent 2px
+        );
+
+    animation: staticMove .08s steps(2) infinite;
+}
 
 #scanlines {
     position: fixed;
     inset: 0;
-
+    z-index: 9989;
     pointer-events: none;
-
-    z-index: 9000;
 
     background:
         repeating-linear-gradient(
             to bottom,
-            transparent 0px,
-            transparent 3px,
-            rgba(255,255,255,.025) 4px
+            rgba(255,255,255,.025) 0,
+            rgba(255,255,255,.025) 1px,
+            transparent 1px,
+            transparent 4px
         );
-
-    opacity: .5;
 }
 
 #vignette {
     position: fixed;
     inset: 0;
-
+    z-index: 9988;
     pointer-events: none;
 
-    z-index: 9001;
-
-    box-shadow:
-        inset 0 0 180px #000,
-        inset 0 0 350px #000;
-}
-
-#static {
-    position: fixed;
-    inset: -50%;
-
-    pointer-events: none;
-
-    z-index: 8999;
-
-    opacity: .045;
-
-    background-image:
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-
-    animation: staticMove .15s steps(2) infinite;
-}
-
-@keyframes staticMove {
-
-    0% {
-        transform: translate(0,0);
-    }
-
-    25% {
-        transform: translate(3%,-2%);
-    }
-
-    50% {
-        transform: translate(-2%,3%);
-    }
-
-    75% {
-        transform: translate(2%,2%);
-    }
-
-    100% {
-        transform: translate(0,0);
-    }
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 35%,
+            rgba(0,0,0,.75) 100%
+        );
 }
 
 #redFlash {
     position: fixed;
     inset: 0;
-
+    z-index: 9998;
     pointer-events: none;
 
-    z-index: 8998;
-
-    background: #a00000;
-
+    background: #900;
     opacity: 0;
 }
 
 #distortion {
     position: fixed;
     inset: 0;
-
+    z-index: 9997;
     pointer-events: none;
-
-    z-index: 8997;
-
-    opacity: 0;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,0,0,.15),
-            transparent
-        );
 }
 
 
-/* =========================================================
+/* ============================================================
    INTRO
-========================================================= */
+============================================================ */
 
 #intro {
-
     position: fixed;
-
     inset: 0;
 
-    z-index: 10000;
+    z-index: 100000;
 
     background: #000;
 
     display: flex;
-
     flex-direction: column;
-
+    justify-content: center;
     align-items: center;
 
-    justify-content: center;
-
     transition:
-        opacity 1.2s,
-        visibility 1.2s;
+        opacity .8s ease,
+        visibility .8s ease;
 }
 
 #intro.hidden {
-
     opacity: 0;
-
     visibility: hidden;
-
-    pointer-events: none;
 }
 
 #introWarning {
+    color: #900;
+    font-size: clamp(22px, 4vw, 50px);
+    letter-spacing: 8px;
+    margin-bottom: 40px;
 
-    color: #6e0000;
-
-    font-family: monospace;
-
-    font-size: 14px;
-
-    letter-spacing: 6px;
-
-    animation:
-        introBlink 1s infinite;
-}
-
-@keyframes introBlink {
-
-    50% {
-        opacity: .15;
-    }
+    animation: warningBlink 1.4s infinite;
 }
 
 #introTerminal {
-
-    margin-top: 35px;
-
-    width: min(90%, 550px);
-
-    color: #505050;
-
-    font-family: monospace;
-
-    font-size: 12px;
-
+    width: min(700px, 90%);
+    color: #777;
+    font-size: 14px;
     line-height: 2;
 }
 
-#introTerminal p:nth-child(4) {
-
-    color: #8a0000;
+#introTerminal p {
+    min-height: 24px;
 }
 
-#introDynamic {
-
+#introTerminal p:last-child {
     color: #aaa;
-
-    margin-top: 10px;
 }
 
 #introContinue {
-
-    margin-top: 45px;
-
-    color: #333;
-
-    font-family: monospace;
-
-    font-size: 10px;
-
+    margin-top: 50px;
+    color: #555;
+    font-size: 12px;
     letter-spacing: 4px;
 
-    cursor: pointer;
-
-    animation: introContinue 1.4s infinite;
-}
-
-@keyframes introContinue {
-
-    50% {
-        color: #888;
-    }
+    animation: continueBlink 1s infinite;
 }
 
 
-/* =========================================================
-   MAIN SITE
-========================================================= */
+/* ============================================================
+   SITE
+============================================================ */
 
 #site {
-    opacity: 0;
-
-    transition: opacity 1.5s;
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            circle at 70% 30%,
+            rgba(80,0,0,.12),
+            transparent 40%
+        ),
+        #030303;
 }
 
-#site.loaded {
-    opacity: 1;
-}
 
-
-/* =========================================================
+/* ============================================================
    HEADER
-========================================================= */
+============================================================ */
 
 header {
-
     position: fixed;
-
     top: 0;
     left: 0;
+    right: 0;
 
-    width: 100%;
-
-    height: 72px;
-
-    padding: 0 5%;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
+    height: 75px;
 
     z-index: 1000;
 
-    background:
-        linear-gradient(
-            rgba(0,0,0,.94),
-            rgba(0,0,0,.7)
-        );
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
+    padding: 0 40px;
+
+    background: rgba(0,0,0,.9);
     border-bottom: 1px solid #171717;
 
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(8px);
 }
 
 .logo {
-
     display: flex;
+    align-items: baseline;
+    gap: 10px;
 
-    flex-direction: column;
-
-    font-weight: 900;
-
-    letter-spacing: 2px;
+    color: #ddd;
+    font-weight: bold;
+    letter-spacing: 3px;
 }
 
 .logo span {
-
-    font-size: 15px;
+    color: #eee;
 }
 
 .logo small {
-
-    color: #750000;
-
-    font-size: 9px;
-
-    letter-spacing: 5px;
+    color: #600;
+    font-size: 10px;
 }
 
 nav {
-
     display: flex;
-
-    gap: 5px;
+    gap: 8px;
 }
 
 nav button {
-
     background: transparent;
-
     border: 0;
-
-    padding: 10px 14px;
 
     color: #555;
 
-    font-size: 10px;
+    padding: 10px 15px;
 
-    font-weight: bold;
+    font-family: inherit;
+    font-size: 11px;
 
     letter-spacing: 2px;
 
@@ -339,1183 +245,1106 @@ nav button {
 }
 
 nav button:hover {
-
-    color: #b00000;
-
+    color: #d00;
+    text-shadow: 0 0 10px #900;
 }
 
 #systemStatus {
-
-    color: #4d0000;
-
-    font-family: monospace;
-
-    font-size: 9px;
-
+    color: #600;
+    font-size: 10px;
     letter-spacing: 2px;
 }
 
 
-/* =========================================================
+/* ============================================================
    PAGES
-========================================================= */
+============================================================ */
 
 .page {
-
     min-height: 100vh;
-
-    padding: 130px 9% 100px;
+    padding: 130px 7% 80px;
 
     position: relative;
-
-    border-bottom: 1px solid #111;
-
-    background:
-        radial-gradient(
-            circle at 50% 50%,
-            #080101,
-            #000 65%
-        );
 }
 
-.page:nth-child(even) {
-
-    background:
-        radial-gradient(
-            circle at 20% 30%,
-            #0b0101,
-            #000 60%
-        );
+.pageHeader {
+    margin-bottom: 60px;
 }
 
-
-/* =========================================================
-   HOME
-========================================================= */
-
-#home {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    overflow: hidden;
-
-    min-height: 100vh;
-}
-
-.home-left {
-
-    max-width: 680px;
-
-    position: relative;
-
-    z-index: 10;
-}
-
-.tiny-warning {
-
-    display: inline-block;
-
-    padding: 7px 10px;
-
-    border-left: 2px solid #720000;
-
-    color: #555;
-
-    font-family: monospace;
-
-    font-size: 9px;
-
+.pageHeader span {
+    color: #500;
+    font-size: 11px;
     letter-spacing: 3px;
 }
 
-#mainTitle {
+.pageHeader h2 {
+    margin-top: 12px;
 
-    margin-top: 30px;
-
-    font-size:
-        clamp(
-            65px,
-            10vw,
-            145px
-        );
-
-    line-height: .72;
-
-    letter-spacing: -9px;
+    font-size: clamp(30px, 5vw, 65px);
 
     color: #ddd;
 
-    text-shadow:
-        4px 0 #730000,
-        -2px 0 #111;
-
-    animation: titleIdle 7s infinite;
+    letter-spacing: 5px;
 }
 
-@keyframes titleIdle {
 
-    0%, 93%, 100% {
-        transform: none;
-    }
+/* ============================================================
+   HOME
+============================================================ */
 
-    94% {
-        transform: translate(-7px, 2px);
-    }
+#home {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    95% {
-        transform: translate(6px, -1px);
-    }
+    gap: 50px;
 
-    96% {
-        transform: none;
-    }
+    overflow: hidden;
 }
 
-#mainTitle span {
+.home-left {
+    position: relative;
+    z-index: 10;
 
-    color: #730000;
-
+    max-width: 650px;
 }
 
-#home h2 {
+.tiny-warning {
+    color: #700;
+    font-size: 11px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
 
-    margin-top: 18px;
+#mainTitle {
+    font-size: clamp(55px, 9vw, 130px);
+    line-height: .8;
 
-    font-size:
-        clamp(
-            45px,
-            7vw,
-            90px
-        );
+    color: #eee;
 
     letter-spacing: -5px;
 
-    color: #750000;
+    text-shadow:
+        3px 0 #300,
+        -2px 0 #111;
 }
 
-.subtitle {
-
-    margin-top: 10px;
-
-    color: #444;
-
-    font-family: monospace;
-
-    letter-spacing: 7px;
-
-    font-size: 12px;
+#mainTitle span {
+    color: #700;
 }
 
-#homeMessage {
+#home h2 {
+    margin-top: 20px;
 
-    margin-top: 35px;
-
-    color: #666;
-
-    font-family: monospace;
-
-    font-size: 13px;
-
-    line-height: 2;
-}
-
-.homeButtons {
-
-    display: flex;
-
-    gap: 12px;
-
-    margin-top: 35px;
-}
-
-.danger {
-
-    padding: 15px 25px;
-
-    border: 1px solid #710000;
-
-    background: #650000;
-
-    color: white;
-
-    font-weight: 900;
-
-    letter-spacing: 1px;
-
-    cursor: pointer;
-
-    transition: .15s;
-}
-
-.danger:hover {
-
-    background: #a00000;
-
-    box-shadow:
-        0 0 35px rgba(140,0,0,.4);
-
-}
-
-.ghost {
-
-    padding: 15px 25px;
-
-    border: 1px solid #242424;
-
-    background: #050505;
+    font-size: clamp(30px, 5vw, 70px);
 
     color: #555;
 
+    letter-spacing: 15px;
+}
+
+.subtitle {
+    margin-top: 10px;
+
+    color: #800;
+
+    font-size: 13px;
+
+    letter-spacing: 8px;
+}
+
+#homeMessage {
+    margin-top: 35px;
+
+    color: #777;
+
+    line-height: 2;
+
+    font-size: 14px;
+}
+
+.homeButtons {
+    display: flex;
+    gap: 15px;
+    margin-top: 35px;
+}
+
+button {
+    font-family: inherit;
+}
+
+.danger,
+.ghost {
+    padding: 15px 25px;
+
+    border: 1px solid #500;
+
+    background: transparent;
+
+    color: #aaa;
+
     cursor: pointer;
 
+    letter-spacing: 2px;
+
+    transition: .2s;
+}
+
+.danger:hover {
+    background: #500;
+    color: #fff;
+
+    box-shadow:
+        0 0 20px rgba(100,0,0,.5);
+}
+
+.ghost {
+    border-color: #222;
+    color: #555;
 }
 
 .ghost:hover {
-
-    color: #ddd;
-
-    border-color: #600000;
+    border-color: #555;
+    color: #aaa;
 }
 
 #homeWarning {
-
     margin-top: 35px;
 
-    color: #333;
+    color: #444;
 
-    font-family: monospace;
-
-    font-size: 9px;
+    font-size: 10px;
 
     letter-spacing: 2px;
 }
 
 #homeWarning span {
-
-    color: #710000;
-
-    margin-right: 10px;
+    color: #800;
 }
 
 
-/* =========================================================
+/* ============================================================
    ENTITY
-========================================================= */
+============================================================ */
 
 .entity {
+    width: min(45vw, 550px);
+    height: min(45vw, 550px);
 
-    position: absolute;
+    min-width: 300px;
+    min-height: 300px;
 
-    right: 8%;
+    position: relative;
 
-    top: 50%;
-
-    width: 440px;
-
-    height: 520px;
-
-    transform:
-        translateY(-50%);
-
-    transition:
-        transform .12s ease-out;
-
-    z-index: 5;
-
-    filter:
-        drop-shadow(
-            0 0 35px rgba(100,0,0,.12)
-        );
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .entityHead {
+    width: 75%;
+    height: 75%;
 
-    position: absolute;
-
-    width: 350px;
-
-    height: 430px;
-
-    left: 45px;
-
-    top: 40px;
-
-    border-radius:
-        48%
-        48%
-        43%
-        43%;
+    position: relative;
 
     background:
         radial-gradient(
-            ellipse at 50% 30%,
-            #101010,
-            #020202 65%
+            circle at 50% 35%,
+            #eee 0%,
+            #bbb 42%,
+            #555 75%,
+            #111 100%
         );
 
+    border-radius: 48% 48% 43% 43%;
+
     box-shadow:
-        0 0 80px rgba(0,0,0,.9);
+        0 0 80px rgba(120,0,0,.12),
+        inset 0 -40px 50px #111;
 }
 
 .eye {
-
     position: absolute;
 
-    top: 155px;
+    width: 26%;
+    height: 20%;
 
-    width: 80px;
+    top: 32%;
 
-    height: 31px;
-
-    background:
-        radial-gradient(
-            ellipse,
-            #e00000 0%,
-            #7c0000 45%,
-            #1a0000 75%
-        );
+    background: #fff;
 
     border-radius: 50%;
 
-    box-shadow:
-        0 0 15px #9a0000,
-        0 0 50px rgba(150,0,0,.3);
-
     overflow: hidden;
+
+    box-shadow:
+        0 0 15px #000;
 }
 
-.eye-left {
-
-    left: 58px;
-
-    transform: rotate(7deg);
+.eye:first-child {
+    left: 17%;
 }
 
-.eye-right {
-
-    right: 58px;
-
-    transform: rotate(-7deg);
+.eye:nth-child(2) {
+    right: 17%;
 }
 
 .pupil {
-
     position: absolute;
 
-    width: 15px;
+    width: 45%;
+    height: 80%;
 
-    height: 15px;
-
-    left: 33px;
-
-    top: 8px;
+    left: 27%;
+    top: 10%;
 
     background: #000;
 
     border-radius: 50%;
+
+    box-shadow:
+        0 0 10px #000;
 }
 
 .entityMouth {
-
     position: absolute;
 
-    left: 50%;
+    width: 58%;
+    height: 25%;
 
-    bottom: 80px;
+    left: 21%;
+    bottom: 18%;
 
-    width: 210px;
+    background: #050505;
 
-    height: 95px;
+    border-radius: 0 0 50% 50%;
 
-    transform:
-        translateX(-50%)
-        perspective(100px)
-        rotateX(-5deg);
+    display: grid;
 
-    border-bottom:
-        4px solid #780000;
+    grid-template-columns: repeat(8, 1fr);
 
-    border-radius:
-        0 0 50% 50%;
+    gap: 3px;
 
-    display: flex;
-
-    justify-content: center;
-
-    align-items: flex-end;
-
-    gap: 7px;
-
-    overflow: hidden;
+    padding: 5px;
 }
 
 .entityMouth div {
-
-    width: 13px;
-
-    height: 48px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #ddd,
-            #555
-        );
+    background: #ddd;
 
     clip-path:
         polygon(
             0 0,
             100% 0,
-            75% 100%,
-            25% 100%
+            85% 100%,
+            15% 100%
         );
 }
 
 #randomMessage {
-
     position: absolute;
 
-    bottom: 40px;
-
+    bottom: 50px;
     right: 7%;
 
-    color: #330000;
+    color: #500;
 
-    font-family: monospace;
-
-    font-size: 10px;
+    font-size: 11px;
 
     letter-spacing: 2px;
 
-    z-index: 20;
-
-    opacity: 0;
-
-    transition: opacity .2s;
-}
-
-#randomMessage.visible {
-
-    opacity: 1;
-
+    opacity: .7;
 }
 
 
-/* =========================================================
-   PAGE HEADER
-========================================================= */
-
-.pageHeader {
-
-    margin-bottom: 65px;
-}
-
-.pageHeader span {
-
-    color: #570000;
-
-    font-family: monospace;
-
-    font-size: 10px;
-
-    letter-spacing: 3px;
-}
-
-.pageHeader h2 {
-
-    margin-top: 15px;
-
-    font-size:
-        clamp(
-            45px,
-            7vw,
-            95px
-        );
-
-    line-height: .8;
-
-    letter-spacing: -5px;
-}
-
-
-/* =========================================================
+/* ============================================================
    FILES
-========================================================= */
+============================================================ */
 
 .fileLayout {
-
     display: grid;
 
     grid-template-columns:
-        1.2fr .8fr;
+        minmax(0, 1.5fr)
+        minmax(250px, 1fr);
 
-    gap: 40px;
+    gap: 30px;
 }
 
 .terminal {
-
     border: 1px solid #191919;
 
-    background: #010101;
+    background: #050505;
 }
 
 .terminalTop {
+    padding: 12px 15px;
 
-    padding: 12px 18px;
-
-    border-bottom: 1px solid #151515;
+    border-bottom: 1px solid #191919;
 
     display: flex;
-
     justify-content: space-between;
 
-    color: #444;
-
-    font-family: monospace;
+    color: #555;
 
     font-size: 10px;
 }
 
-.terminalTop span:last-child {
-
-    color: #6e0000;
-}
-
 #terminal {
-
-    padding: 30px;
-
-    min-height: 330px;
+    padding: 25px;
 
     color: #555;
 
-    font-family: monospace;
-
-    font-size: 12px;
-
-    line-height: 2.2;
-}
-
-.red {
-
-    color: #8d0000;
+    line-height: 2;
 }
 
 .dangerText {
-
-    color: #a00000;
-
-    animation:
-        terminalBlink 2s infinite;
+    color: #800;
 }
 
-@keyframes terminalBlink {
-
-    50% {
-        opacity: .2;
-    }
+.red {
+    color: #a00;
 }
 
 .fileInfo {
-
     display: flex;
-
     flex-direction: column;
-
     gap: 10px;
 }
 
 .file {
-
-    min-height: 70px;
-
     padding: 20px;
 
-    display: flex;
+    border: 1px solid #151515;
 
+    display: flex;
     justify-content: space-between;
 
-    align-items: center;
+    color: #555;
 
-    border: 1px solid #191919;
+    transition: .2s;
+}
 
-    background: #030303;
-
-    font-family: monospace;
-
-    font-size: 11px;
+.file:hover {
+    border-color: #400;
+    color: #aaa;
 }
 
 .file b {
-
-    color: #600000;
-
     font-size: 9px;
+    color: #700;
 }
 
 
-/* =========================================================
+/* ============================================================
    SONGS
-========================================================= */
+============================================================ */
 
 .songs {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-
-    max-width: 900px;
+    max-width: 1000px;
 }
 
 .song {
-
     min-height: 100px;
 
-    padding: 20px 25px;
+    border-top: 1px solid #151515;
 
     display: grid;
 
-    grid-template-columns:
-        60px 1fr 130px;
+    grid-template-columns: 70px 1fr auto;
 
     align-items: center;
 
-    border: 1px solid #1b1b1b;
+    gap: 20px;
 
-    background: #030303;
+    padding: 20px;
 
     cursor: pointer;
 
     transition: .2s;
 }
 
+.song:last-child {
+    border-bottom: 1px solid #151515;
+}
+
 .song:hover {
-
-    border-color: #620000;
-
-    background: #080101;
-
-    transform:
-        translateX(5px);
+    background: rgba(100,0,0,.08);
 }
 
 .songNumber {
-
-    color: #450000;
-
-    font-family: monospace;
-
-    font-size: 12px;
+    color: #500;
 }
 
 .song h3 {
-
-    font-size: 19px;
-
-    letter-spacing: 1px;
-}
-
-.song p {
-
-    margin-top: 5px;
-
-    color: #444;
-
-    font-family: monospace;
-
-    font-size: 9px;
-}
-
-.song > span {
-
-    color: #555;
-
-    font-family: monospace;
-
-    font-size: 8px;
-
-    text-align: right;
-}
-
-.song.corrupted {
-
-    border-color: #350000;
-
-    animation:
-        corrupted 4s infinite;
-}
-
-@keyframes corrupted {
-
-    50% {
-
-        transform:
-            translateX(-2px)
-            skewX(.5deg);
-
-    }
-}
-
-.song.unknown {
-
-    opacity: .45;
-}
-
-#audioWarning {
-
-    margin-top: 50px;
-
-    color: #3d0000;
-
-    font-family: monospace;
-
-    font-size: 10px;
+    color: #aaa;
 
     letter-spacing: 3px;
 }
 
+.song p {
+    margin-top: 5px;
 
-/* =========================================================
-   EXECUTE
-========================================================= */
+    color: #444;
+
+    font-size: 10px;
+}
+
+.song > span {
+    color: #600;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+.song.unknown {
+    opacity: .45;
+}
+
+#audioWarning {
+    margin-top: 50px;
+
+    color: #600;
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+}
+
+
+/* ============================================================
+   EXECUTE PAGE
+============================================================ */
 
 #download {
-
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     text-align: center;
 }
 
 .execute {
-
-    width: min(90%, 600px);
-
-    padding: 70px 40px;
-
-    border:
-        1px solid #350000;
-
-    background:
-        radial-gradient(
-            circle,
-            #0b0101,
-            #010101 70%
-        );
+    max-width: 600px;
 }
 
 .executeIcon {
+    width: 70px;
+    height: 70px;
 
-    width: 60px;
+    margin: 0 auto 25px;
 
-    height: 60px;
-
-    margin:
-        0 auto 25px;
+    border: 1px solid #600;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
-    border: 2px solid #650000;
-
-    color: #8d0000;
+    color: #900;
 
     font-size: 30px;
-
-    font-weight: bold;
 }
 
 .execute > span {
+    color: #600;
 
-    color: #600000;
-
-    font-family: monospace;
-
-    font-size: 9px;
+    font-size: 10px;
 
     letter-spacing: 4px;
 }
 
 .execute h2 {
+    margin: 25px 0;
 
-    margin-top: 20px;
+    font-size: clamp(50px, 8vw, 100px);
 
-    font-size:
-        clamp(
-            70px,
-            11vw,
-            130px
-        );
+    line-height: .8;
 
-    line-height: .75;
-
-    letter-spacing: -8px;
+    letter-spacing: -4px;
 }
 
 .execute h2 b {
-
-    color: #720000;
+    color: #700;
 }
 
 .execute p {
-
-    margin: 30px 0;
-
     color: #555;
 
-    font-family: monospace;
+    margin-bottom: 30px;
 }
 
 .execute small {
-
     display: block;
 
     margin-top: 25px;
 
     color: #333;
 
-    font-family: monospace;
-
-    font-size: 9px;
-
     line-height: 1.8;
 }
 
 
-/* =========================================================
+/* ============================================================
    FOOTER
-========================================================= */
+============================================================ */
 
 footer {
+    min-height: 70px;
 
-    min-height: 80px;
+    padding: 20px 7%;
 
-    padding: 25px 7%;
+    border-top: 1px solid #111;
 
     display: flex;
 
     justify-content: space-between;
 
-    align-items: center;
-
-    border-top: 1px solid #111;
-
     color: #333;
 
-    font-family: monospace;
-
     font-size: 9px;
+
+    letter-spacing: 2px;
 }
 
 
-/* =========================================================
+/* ============================================================
    MODAL
-========================================================= */
+============================================================ */
 
 #modal {
-
     position: fixed;
 
     inset: 0;
 
-    z-index: 7000;
+    z-index: 9000;
 
     display: none;
 
     align-items: center;
-
     justify-content: center;
 
-    background:
-        rgba(0,0,0,.94);
-
-    backdrop-filter:
-        blur(10px);
+    background: rgba(0,0,0,.9);
 }
 
 #modal.active {
-
     display: flex;
 }
 
 .modalBox {
+    width: min(500px, 90%);
 
-    width: min(90%, 500px);
+    padding: 40px;
 
-    padding: 45px;
+    background: #050505;
+
+    border: 1px solid #400;
 
     position: relative;
-
-    text-align: center;
-
-    border:
-        1px solid #590000;
-
-    background: #030303;
-
-    box-shadow:
-        0 0 100px
-        rgba(100,0,0,.2);
 }
 
 #closeModal {
-
     position: absolute;
 
-    top: 12px;
-
     right: 15px;
+    top: 10px;
 
     border: 0;
-
     background: transparent;
 
-    color: #444;
+    color: #555;
 
-    font-size: 28px;
+    font-size: 25px;
 
     cursor: pointer;
 }
 
 #modalStatus {
+    color: #700;
 
-    color: #650000;
+    font-size: 10px;
 
-    font-family: monospace;
-
-    font-size: 9px;
-
-    letter-spacing: 4px;
+    letter-spacing: 3px;
 }
 
 #modalTitle {
+    margin: 20px 0;
 
-    margin-top: 20px;
-
-    font-size: 42px;
-
-    letter-spacing: -2px;
+    color: #aaa;
 }
 
 #modalText {
-
-    margin: 25px 0;
-
     color: #555;
 
-    font-family: monospace;
+    line-height: 1.8;
 
-    font-size: 11px;
-
-    line-height: 2;
+    margin-bottom: 25px;
 }
 
 
-/* =========================================================
+/* ============================================================
    JUMPSCARE
-========================================================= */
+============================================================ */
 
 #jumpscare {
-
     position: fixed;
 
     inset: 0;
 
-    z-index: 20000;
-
-    display: none;
+    z-index: 999999;
 
     background: #000;
 
-    align-items: center;
+    display: none;
 
+    align-items: center;
     justify-content: center;
+
+    flex-direction: column;
+}
+
+#jumpscare.active {
+    display: flex;
+}
+
+.scareFace {
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #aaa,
+            #222 60%,
+            #000
+        );
+
+    position: relative;
+
+    box-shadow:
+        0 0 100px #500;
+}
+
+.scareEye {
+    position: absolute;
+
+    width: 25%;
+    height: 15%;
+
+    top: 30%;
+
+    background: #900;
+
+    border-radius: 50%;
+
+    box-shadow: 0 0 25px #f00;
+}
+
+.scareEye.left {
+    left: 15%;
+}
+
+.scareEye.right {
+    right: 15%;
+}
+
+.scareMouth {
+    position: absolute;
+
+    width: 60%;
+    height: 25%;
+
+    left: 20%;
+    bottom: 15%;
+
+    background: #000;
+
+    display: grid;
+
+    grid-template-columns: repeat(9, 1fr);
+
+    gap: 3px;
+
+    padding: 5px;
+}
+
+.scareMouth span {
+    background: #eee;
+}
+
+#scareText {
+    margin-top: 35px;
+
+    color: #a00;
+
+    font-size: 30px;
+
+    letter-spacing: 8px;
+}
+
+
+/* ============================================================
+   DOWNLOAD HORROR SCENE
+============================================================ */
+
+#downloadScene {
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 200000;
+
+    display: none;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #100000 0%,
+            #030000 40%,
+            #000 100%
+        );
 
     overflow: hidden;
 }
 
-#jumpscare.active {
+#downloadScene.active {
+    display: block;
+    animation: downloadSceneIn .5s ease forwards;
+}
+
+#downloadNoise {
+    position: absolute;
+
+    inset: -20%;
+
+    opacity: .09;
+
+    background-image:
+        repeating-radial-gradient(
+            circle,
+            transparent 0,
+            #fff 1px,
+            transparent 2px
+        );
+
+    animation:
+        noiseMove .08s steps(2) infinite;
+}
+
+#downloadSceneContent {
+    position: relative;
+
+    width: min(900px, 90%);
+
+    height: 100%;
+
+    margin: auto;
 
     display: flex;
 
-    animation:
-        scareShake .07s infinite;
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
 }
 
-@keyframes scareShake {
+#downloadLogo {
+    color: #800;
+
+    font-size: clamp(30px, 6vw, 80px);
+
+    font-weight: bold;
+
+    letter-spacing: 8px;
+
+    text-shadow:
+        4px 0 #200,
+        -4px 0 #300;
+
+    animation: logoGlitch .8s infinite;
+}
+
+#downloadStatus {
+    margin-top: 10px;
+
+    color: #555;
+
+    font-size: 10px;
+
+    letter-spacing: 5px;
+}
+
+#downloadTerminal {
+    width: min(700px, 100%);
+
+    min-height: 230px;
+
+    margin-top: 40px;
+
+    padding: 25px;
+
+    border: 1px solid #241010;
+
+    background: rgba(0,0,0,.7);
+
+    color: #666;
+
+    font-size: 13px;
+
+    line-height: 1.8;
+
+    box-shadow:
+        0 0 40px rgba(100,0,0,.08);
+}
+
+#downloadLines p {
+    margin: 0;
+}
+
+#downloadLines .dangerLine {
+    color: #900;
+}
+
+#downloadLines .glitchLine {
+    color: #777;
+
+    animation:
+        terminalGlitch .15s infinite;
+}
+
+#downloadCursor {
+    color: #900;
+
+    animation: cursorBlink .6s infinite;
+}
+
+#downloadProgressContainer {
+    width: min(700px, 100%);
+
+    margin-top: 25px;
+
+    display: none;
+}
+
+#downloadProgressBar {
+    width: 100%;
+
+    height: 4px;
+
+    background: #150707;
+
+    border: 1px solid #300;
+}
+
+#downloadProgress {
+    width: 0%;
+
+    height: 100%;
+
+    background: #800;
+
+    box-shadow:
+        0 0 12px #800;
+
+    transition: width .08s linear;
+}
+
+#downloadPercent {
+    margin-top: 8px;
+
+    color: #600;
+
+    text-align: right;
+
+    font-size: 10px;
+}
+
+#downloadFinal {
+    margin-top: 30px;
+
+    text-align: center;
+
+    display: none;
+}
+
+#downloadFinalText {
+    color: #900;
+
+    font-size: 12px;
+
+    letter-spacing: 4px;
+
+    animation: warningBlink .8s infinite;
+}
+
+#realDownloadButton {
+    margin-top: 25px;
+
+    padding: 16px 35px;
+
+    border: 1px solid #800;
+
+    background: transparent;
+
+    color: #aaa;
+
+    font-family: inherit;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+#realDownloadButton:hover {
+    background: #800;
+
+    color: #fff;
+
+    box-shadow:
+        0 0 30px rgba(150,0,0,.5);
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes staticMove {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(-2px,1px);
+    }
+
+    50% {
+        transform: translate(2px,-1px);
+    }
+
+    75% {
+        transform: translate(1px,2px);
+    }
+
+    100% {
+        transform: translate(0,0);
+    }
+}
+
+@keyframes warningBlink {
+
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .25;
+    }
+}
+
+@keyframes continueBlink {
+
+    0%, 100% {
+        opacity: .25;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes downloadSceneIn {
+
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes noiseMove {
+
+    0% {
+        transform: translate(0,0);
+    }
+
+    25% {
+        transform: translate(2%, -1%);
+    }
+
+    50% {
+        transform: translate(-2%, 2%);
+    }
+
+    75% {
+        transform: translate(1%, 1%);
+    }
+
+    100% {
+        transform: translate(0,0);
+    }
+}
+
+@keyframes logoGlitch {
+
+    0%, 90%, 100% {
+        transform: translate(0);
+    }
+
+    92% {
+        transform: translate(-5px, 2px);
+    }
+
+    94% {
+        transform: translate(5px, -2px);
+    }
+
+    96% {
+        transform: translate(-2px, 0);
+    }
+}
+
+@keyframes terminalGlitch {
 
     0% {
         transform: translate(0);
     }
 
-    25% {
-        transform: translate(8px,-5px);
-    }
-
     50% {
-        transform: translate(-7px,6px);
-    }
-
-    75% {
-        transform: translate(5px,4px);
+        transform: translate(3px);
     }
 
     100% {
-        transform: translate(0);
+        transform: translate(-3px);
     }
 }
 
-.scareFace {
+@keyframes cursorBlink {
 
-    position: relative;
+    0%, 49% {
+        opacity: 1;
+    }
 
-    width: 500px;
-
-    height: 600px;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            #111,
-            #000 70%
-        );
-
-    filter:
-        contrast(2);
-}
-
-.scareEye {
-
-    position: absolute;
-
-    top: 190px;
-
-    width: 120px;
-
-    height: 50px;
-
-    background: #ff0000;
-
-    border-radius: 50%;
-
-    box-shadow:
-        0 0 30px #ff0000,
-        0 0 100px #900000;
-}
-
-.scareEye.left {
-
-    left: 65px;
-
-    transform: rotate(8deg);
-}
-
-.scareEye.right {
-
-    right: 65px;
-
-    transform: rotate(-8deg);
-}
-
-.scareMouth {
-
-    position: absolute;
-
-    left: 50%;
-
-    bottom: 90px;
-
-    transform:
-        translateX(-50%);
-
-    width: 300px;
-
-    height: 150px;
-
-    border-bottom:
-        8px solid #b00000;
-
-    border-radius:
-        0 0 50% 50%;
-
-    display: flex;
-
-    justify-content: center;
-
-    align-items: flex-end;
-
-    gap: 10px;
-}
-
-.scareMouth span {
-
-    width: 20px;
-
-    height: 80px;
-
-    background: white;
-
-    clip-path:
-        polygon(
-            0 0,
-            100% 0,
-            75% 100%,
-            25% 100%
-        );
-}
-
-#scareText {
-
-    position: absolute;
-
-    bottom: 8%;
-
-    color: #a00000;
-
-    font-family: monospace;
-
-    font-size: 20px;
-
-    font-weight: bold;
-
-    letter-spacing: 10px;
-
-    animation:
-        scareText 0.3s infinite;
-}
-
-@keyframes scareText {
-
-    50% {
-
-        transform:
-            translateX(8px);
-
-        opacity: .4;
+    50%, 100% {
+        opacity: 0;
     }
 }
 
 
-/* =========================================================
-   SPECIAL GLITCH
-========================================================= */
+/* ============================================================
+   BODY GLITCH
+============================================================ */
 
-body.glitch {
-
-    animation:
-        bodyGlitch .12s steps(2) 4;
+body.glitching {
+    animation: bodyGlitch .12s steps(2) infinite;
 }
 
 @keyframes bodyGlitch {
@@ -1525,15 +1354,15 @@ body.glitch {
     }
 
     25% {
-        transform: translate(-8px,2px);
+        transform: translate(-3px, 1px);
     }
 
     50% {
-        transform: translate(7px,-2px);
+        transform: translate(3px, -1px);
     }
 
     75% {
-        transform: translate(-3px,3px);
+        transform: translate(-1px, -2px);
     }
 
     100% {
@@ -1542,14 +1371,23 @@ body.glitch {
 }
 
 
-/* =========================================================
-   MOBILE
-========================================================= */
+/* ============================================================
+   RESPONSIVE
+============================================================ */
 
-@media (max-width: 900px) {
+@media (max-width: 850px) {
+
+    header {
+        padding: 0 15px;
+    }
 
     nav {
-        display: none;
+        gap: 0;
+    }
+
+    nav button {
+        padding: 8px;
+        font-size: 9px;
     }
 
     #systemStatus {
@@ -1557,56 +1395,65 @@ body.glitch {
     }
 
     #home {
+        flex-direction: column;
 
         justify-content: center;
 
-        text-align: center;
-    }
-
-    .homeButtons {
-
-        justify-content: center;
+        padding-top: 130px;
     }
 
     .entity {
+        width: 320px;
+        height: 320px;
 
-        right: 50%;
-
-        opacity: .16;
-
-        transform:
-            translate(50%,-50%)
-            scale(.8);
+        min-width: 320px;
+        min-height: 320px;
     }
 
     .fileLayout {
-
         grid-template-columns: 1fr;
     }
 
-    .song {
-
-        grid-template-columns:
-            45px 1fr;
-
+    footer {
+        flex-direction: column;
         gap: 10px;
     }
 
+    .song {
+        grid-template-columns: 40px 1fr;
+    }
+
     .song > span {
-
-        display: none;
+        grid-column: 2;
     }
 
-    footer {
+}
 
+@media (max-width: 500px) {
+
+    #mainTitle {
+        letter-spacing: -3px;
+    }
+
+    #home h2 {
+        letter-spacing: 7px;
+    }
+
+    .homeButtons {
         flex-direction: column;
-
-        gap: 12px;
-
     }
 
-    .scareFace {
-
-        transform: scale(.65);
+    .danger,
+    .ghost {
+        width: 100%;
     }
+
+    #downloadTerminal {
+        font-size: 10px;
+    }
+
+    #downloadLogo {
+        letter-spacing: 3px;
+    }
+
 }
