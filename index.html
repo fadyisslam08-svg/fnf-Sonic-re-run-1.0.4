@@ -4,291 +4,611 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>FNF FAN GAME</title>
+    <title>SONIC.EXE // RE-RUN</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+    <!-- =========================================================
+         HORROR EFFECTS
+    ========================================================== -->
 
-    <header class="navbar">
+    <div id="blackout"></div>
 
-        <div class="logo">
-            FNF<span>WEB</span>
+    <div id="static"></div>
+
+    <div id="scanlines"></div>
+
+    <div id="vignette"></div>
+
+    <div id="redFlash"></div>
+
+    <div id="distortion"></div>
+
+
+    <!-- =========================================================
+         INTRO
+    ========================================================== -->
+
+    <section id="intro">
+
+        <div id="introWarning">
+            CONNECTION LOST
         </div>
 
-        <nav>
-            <button data-section="home">HOME</button>
-            <button data-section="songs">SONGS</button>
-            <button data-section="characters">CHARACTERS</button>
-            <button data-section="download">DOWNLOAD</button>
-        </nav>
+        <div id="introTerminal">
 
-    </header>
+            <p>> SYSTEM BOOT</p>
+            <p>> CHECKING FILE SYSTEM...</p>
+            <p>> 1 CORRUPTED FILE FOUND</p>
+            <p>> ATTEMPTING RECOVERY...</p>
 
-
-    <!-- ================= HOME ================= -->
-
-    <section id="home" class="section hero">
-
-        <div class="hero-content">
-
-            <div class="tag">
-                RHYTHM • MUSIC • BATTLE
-            </div>
-
-            <h1>
-                FNF<br>
-                <span>FAN GAME</span>
-            </h1>
-
-            <p>
-                A new rhythm experience.
-                Choose your song, hit the notes and prove your skills.
+            <p id="introDynamic">
+                _
             </p>
 
-            <div class="buttons">
-
-                <button id="playButton" class="main-button">
-                    PLAY NOW
-                </button>
-
-                <button id="scrollSongs" class="secondary-button">
-                    VIEW SONGS
-                </button>
-
-            </div>
-
         </div>
 
-        <div class="hero-visual">
-
-            <div class="disc">
-                <div class="disc-center"></div>
-            </div>
-
-            <div class="note note1">←</div>
-            <div class="note note2">↓</div>
-            <div class="note note3">↑</div>
-            <div class="note note4">→</div>
-
+        <div id="introContinue">
+            CLICK TO CONTINUE
         </div>
 
     </section>
 
 
-    <!-- ================= SONGS ================= -->
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
 
-    <section id="songs" class="section">
+    <main id="site">
 
-        <div class="section-title">
+        <!-- =====================================================
+             NAVBAR
+        ====================================================== -->
 
-            <span>01</span>
+        <header>
 
-            <div>
-                <h2>SONGS</h2>
-                <p>Choose your next battle.</p>
+            <div class="logo">
+
+                <span>SONIC.EXE</span>
+
+                <small>
+                    RE-RUN
+                </small>
+
             </div>
 
-        </div>
+            <nav>
 
-        <div class="song-grid">
-
-            <article class="song-card">
-
-                <div class="song-number">
-                    01
-                </div>
-
-                <div class="song-info">
-                    <h3>NEON NIGHT</h3>
-                    <p>Normal • 120 BPM</p>
-                </div>
-
-                <button class="song-button" data-song="NEON NIGHT">
-                    PLAY
+                <button data-page="home">
+                    HOME
                 </button>
 
-            </article>
-
-
-            <article class="song-card">
-
-                <div class="song-number">
-                    02
-                </div>
-
-                <div class="song-info">
-                    <h3>RHYTHM RUSH</h3>
-                    <p>Hard • 165 BPM</p>
-                </div>
-
-                <button class="song-button" data-song="RHYTHM RUSH">
-                    PLAY
+                <button data-page="story">
+                    FILES
                 </button>
 
-            </article>
-
-
-            <article class="song-card">
-
-                <div class="song-number">
-                    03
-                </div>
-
-                <div class="song-info">
-                    <h3>FINAL BEAT</h3>
-                    <p>Insane • 200 BPM</p>
-                </div>
-
-                <button class="song-button" data-song="FINAL BEAT">
-                    PLAY
+                <button data-page="songs">
+                    AUDIO
                 </button>
 
-            </article>
+                <button data-page="download">
+                    EXECUTE
+                </button>
 
-        </div>
+            </nav>
 
-    </section>
-
-
-    <!-- ================= CHARACTERS ================= -->
-
-    <section id="characters" class="section characters">
-
-        <div class="section-title">
-
-            <span>02</span>
-
-            <div>
-                <h2>CHARACTERS</h2>
-                <p>Meet the performers.</p>
+            <div id="systemStatus">
+                OFFLINE
             </div>
 
-        </div>
+        </header>
 
-        <div class="character-grid">
 
-            <div class="character-card boyfriend">
+        <!-- =====================================================
+             HOME
+        ====================================================== -->
 
-                <div class="character-icon">
-                    BF
+        <section id="home" class="page active">
+
+            <div class="home-left">
+
+                <div class="tiny-warning">
+                    UNAUTHORIZED CONNECTION
                 </div>
 
-                <h3>BOYFRIEND</h3>
+                <h1 id="mainTitle">
 
-                <p>
-                    The challenger.
+                    SONIC
+                    <span>.EXE</span>
+
+                </h1>
+
+                <h2>
+                    RE-RUN
+                </h2>
+
+                <div class="subtitle">
+
+                    BACK FROM THE CODE
+
+                </div>
+
+                <p id="homeMessage">
+
+                    The game was deleted.
+
+                    <br>
+
+                    The files were destroyed.
+
+                    <br>
+
+                    Something restored them.
+
                 </p>
 
-            </div>
+                <div class="homeButtons">
 
+                    <button
+                        id="enterCode"
+                        class="danger"
+                    >
+                        ENTER THE CODE
+                    </button>
 
-            <div class="character-card opponent">
+                    <button
+                        id="watchButton"
+                        class="ghost"
+                    >
+                        DON'T CLICK
+                    </button>
 
-                <div class="character-icon">
-                    VS
                 </div>
 
-                <h3>OPPONENT</h3>
+                <div id="homeWarning">
 
-                <p>
-                    The mysterious rival.
-                </p>
+                    <span>WARNING</span>
 
-            </div>
+                    YOU ARE CONNECTED TO A DEAD SERVER.
 
-
-            <div class="character-card gf">
-
-                <div class="character-icon">
-                    GF
                 </div>
 
-                <h3>GIRLFRIEND</h3>
+            </div>
+
+
+            <!-- =================================================
+                 HORROR FACE
+            ================================================== -->
+
+            <div
+                id="entity"
+                class="entity"
+            >
+
+                <div class="entityHead">
+
+                    <div
+                        id="eyeLeft"
+                        class="eye"
+                    >
+                        <div class="pupil"></div>
+                    </div>
+
+                    <div
+                        id="eyeRight"
+                        class="eye"
+                    >
+                        <div class="pupil"></div>
+                    </div>
+
+                    <div class="entityMouth">
+
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div id="randomMessage">
+                ...
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FILES
+        ====================================================== -->
+
+        <section id="story" class="page">
+
+            <div class="pageHeader">
+
+                <span>
+                    FILE SYSTEM // 001
+                </span>
+
+                <h2>
+                    RECOVERED DATA
+                </h2>
+
+            </div>
+
+
+            <div class="fileLayout">
+
+                <div class="terminal">
+
+                    <div class="terminalTop">
+
+                        <span>
+                            RE-RUN_TERMINAL
+                        </span>
+
+                        <span>
+                            ●
+                        </span>
+
+                    </div>
+
+                    <div id="terminal">
+
+                        <p>
+                            > mounting drive...
+                        </p>
+
+                        <p>
+                            > drive mounted.
+                        </p>
+
+                        <p>
+                            > searching deleted files...
+                        </p>
+
+                        <p class="dangerText">
+                            > 1 ENTITY FOUND
+                        </p>
+
+                        <p>
+                            > name:
+                            <span class="red">
+                                SONIC.EXE
+                            </span>
+                        </p>
+
+                        <p>
+                            > status:
+                            UNKNOWN
+                        </p>
+
+                        <p>
+                            > last access:
+                            00:00:00
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="fileInfo">
+
+                    <div class="file">
+
+                        <span>
+                            /SONIC.EXE
+                        </span>
+
+                        <b>
+                            CORRUPTED
+                        </b>
+
+                    </div>
+
+                    <div class="file">
+
+                        <span>
+                            /RERUN.DATA
+                        </span>
+
+                        <b>
+                            RECOVERED
+                        </b>
+
+                    </div>
+
+                    <div class="file">
+
+                        <span>
+                            /PLAYER.DAT
+                        </span>
+
+                        <b>
+                            MODIFIED
+                        </b>
+
+                    </div>
+
+                    <div class="file">
+
+                        <span>
+                            /???
+                        </span>
+
+                        <b>
+                            LOCKED
+                        </b>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             AUDIO
+        ====================================================== -->
+
+        <section id="songs" class="page">
+
+            <div class="pageHeader">
+
+                <span>
+                    AUDIO DATABASE // 002
+                </span>
+
+                <h2>
+                    RECOVERED SONGS
+                </h2>
+
+            </div>
+
+
+            <div class="songs">
+
+                <article
+                    class="song"
+                    data-song="LAST CHANCE"
+                >
+
+                    <div class="songNumber">
+                        01
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            LAST CHANCE
+                        </h3>
+
+                        <p>
+                            165 BPM
+                        </p>
+
+                    </div>
+
+                    <span>
+                        RECOVERED
+                    </span>
+
+                </article>
+
+
+                <article
+                    class="song corrupted"
+                    data-song="ZALGO"
+                >
+
+                    <div class="songNumber">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            ZALGO
+                        </h3>
+
+                        <p>
+                            BPM: ???
+                        </p>
+
+                    </div>
+
+                    <span>
+                        CORRUPTED
+                    </span>
+
+                </article>
+
+
+                <article
+                    class="song unknown"
+                    data-song="UNKNOWN"
+                >
+
+                    <div class="songNumber">
+                        03
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            ????????
+                        </h3>
+
+                        <p>
+                            BPM: ERROR
+                        </p>
+
+                    </div>
+
+                    <span>
+                        LOCKED
+                    </span>
+
+                </article>
+
+            </div>
+
+
+            <div id="audioWarning">
+
+                AUDIO FILES SHOULD NOT BE PLAYED.
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             DOWNLOAD
+        ====================================================== -->
+
+        <section id="download" class="page">
+
+            <div class="execute">
+
+                <div class="executeIcon">
+                    !
+                </div>
+
+                <span>
+                    EXECUTABLE RECOVERED
+                </span>
+
+                <h2>
+                    RUN
+                    <br>
+                    <b>RE-RUN</b>
+                </h2>
 
                 <p>
-                    The rhythm supporter.
+                    The file is waiting for you.
                 </p>
 
+                <button
+                    id="executeButton"
+                    class="danger"
+                >
+                    EXECUTE
+                </button>
+
+                <small>
+                    SONIC-RERUN.exe
+                    <br>
+                    SIZE: UNKNOWN
+                </small>
+
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- ================= DOWNLOAD ================= -->
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
 
-    <section id="download" class="section download">
+        <footer>
 
-        <div class="download-box">
+            <span>
+                SONIC.EXE: RE-RUN
+            </span>
 
-            <div class="tag">
-                GET THE GAME
-            </div>
+            <span>
+                BACK FROM THE CODE
+            </span>
 
-            <h2>
-                READY TO<br>
-                <span>PLAY?</span>
-            </h2>
+            <span>
+                v1.0000.4
+            </span>
 
-            <p>
-                Download the latest version and start your rhythm battle.
-            </p>
+        </footer>
 
-            <button id="downloadButton" class="main-button">
-                DOWNLOAD
-            </button>
-
-        </div>
-
-    </section>
+    </main>
 
 
-    <!-- ================= FOOTER ================= -->
+    <!-- =========================================================
+         MODAL
+    ========================================================== -->
 
-    <footer>
+    <div id="modal">
 
-        <div>
-            FNF FAN GAME
-        </div>
+        <div class="modalBox">
 
-        <div>
-            © 2026 FAN PROJECT
-        </div>
-
-    </footer>
-
-
-    <!-- ================= MODAL ================= -->
-
-    <div id="modal" class="modal">
-
-        <div class="modal-box">
-
-            <button id="closeModal" class="close">
+            <button id="closeModal">
                 ×
             </button>
 
-            <div class="modal-icon">
-                ♪
+            <div id="modalStatus">
+                ACCESSING FILE
             </div>
 
             <h2 id="modalTitle">
-                SONG
+                UNKNOWN
             </h2>
 
             <p id="modalText">
-                Ready to play?
+                ...
             </p>
 
-            <button id="modalPlay" class="main-button">
-                START
+            <button
+                id="modalAction"
+                class="danger"
+            >
+                CONTINUE
             </button>
 
+        </div>
+
+    </div>
+
+
+    <!-- =========================================================
+         JUMPSCARE
+    ========================================================== -->
+
+    <div id="jumpscare">
+
+        <div class="scareFace">
+
+            <div class="scareEye left"></div>
+            <div class="scareEye right"></div>
+
+            <div class="scareMouth">
+
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+        </div>
+
+        <div id="scareText">
+            I SAW YOU
         </div>
 
     </div>
